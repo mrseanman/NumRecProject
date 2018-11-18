@@ -35,6 +35,30 @@ class Function(object):
         val = f*self.p1PDF([t, theta, tau1]) + (1-f)*self.p2PDF([t, theta, tau2])
         return val
 
+    '''
+    Could have chosen theta from uniform distribution in [0,2pi]
+    instead of integrating over all theta and creating a new PDF
+    which is what I ended up doing
+
+    These have same effect (at infinity) but my way is more deterministic
+    and thus my fits should be more stable
+
+    although my approach is less general and relies on the seperated form
+    of the PDF given
+    '''
+
+    def thetaIndepPDF(self, params):
+        t, tau = params
+        norm = tau * (1 - np.exp(-10./tau))
+        val = np.exp(-t/tau)
+        return val/norm
+
+    def fThetaIndepPDF(self, params):
+        f, t, tau1, tau2 = params
+        val = f*self.thetaIndepPDF([t,tau1]) + (1-f)*self.thetaIndepPDF([t,tau2])
+        return val
+
+
 
 class FixParams(object):
     def __init__(self, func, numOfParams, fixParamsVals, indexOfFixParams):
@@ -44,8 +68,8 @@ class FixParams(object):
         self.indexOfFixParams = indexOfFixParams
 
     def eval(self, freeParams):
-        freeParamsCopy = copy.deepcopy(freeParams)
-        fixParamsValsCopy = copy.deepcopy(self.fixParamsVals)
+        freeParamsCopy = list(copy.deepcopy(freeParams))
+        fixParamsValsCopy = list(copy.deepcopy(self.fixParamsVals))
 
         finalParams = []
 
@@ -64,7 +88,7 @@ class FixParams(object):
 
 '''
 Creates an instance of a class that is useful for evaluating a compsition
-of 2 functions in Function (or in python libraries)
+of 2 functions in Function (or in other libraries)
 '''
 class ComposeFunction(object):
     def __init__(self, funcToCompose, funcInitial):

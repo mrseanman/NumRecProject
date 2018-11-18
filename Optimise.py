@@ -1,5 +1,5 @@
 '''
-Class to minimiseChior find roots of given function
+Class to minimise and find roots of given function
 '''
 
 #test for git
@@ -88,6 +88,10 @@ class Optimise(object):
                 val0 = val1
                 params[freeParamIndex] += direction*freeParamJump
                 val1 = func(params)
+                '''
+                print(params)
+                print(val1)
+                '''
                 if (abs(val1) - abs(val0) > 0.) and (np.sign(val1) == np.sign(val0)):
                     changeDir = True
 

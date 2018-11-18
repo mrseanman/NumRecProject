@@ -8,12 +8,9 @@ class Data(object):
     def __init__(self, dataFileName):
         self.importData(dataFileName)
 
-
-    #puts data in dataFileName in relevant vals or errVals
-    #this is for dealing with tab separated values as in the checkpoint
     def importData(self, dataFileName):
-        self.data = [[],[]]
-        self.errData = []
+        self.tVals = []
+        self.thetaVals= []
 
         dataText = open(dataFileName, "r")
         lines = dataText.readlines()
@@ -23,12 +20,7 @@ class Data(object):
 
         for line in lines:
             vals = line.split()
-            numOfVals = len(vals)
-
-            self.data[0].append(float(vals[0]))
-            if numOfVals > 1:
-                self.data[1].append(float(vals[1]))
-                if numOfVals > 2:
-                    self.errData.append(float(vals[2]))
+            self.tVals.append(float(vals[0]))
+            self.thetaVals.append(float(vals[1]))
 
         dataText.close()

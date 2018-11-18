@@ -25,7 +25,7 @@ class PDFGen(object):
                 evalParams.append(np.random.uniform(self.paramRanges[i][0],self.paramRanges[i][1]))
             y = np.random.uniform(0., self.maxPDFVal)
 
-            if self.pdf(evalParams) <= y:
+            if self.pdf(evalParams) >= y:
                 foundVal = True
 
         return evalParams
