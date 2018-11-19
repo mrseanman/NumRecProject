@@ -5,12 +5,16 @@ to do useful things.
 '''
 import numpy as np
 from scipy import optimize
+import sys
+import copy
+
 from Function import Function, FixParams, ComposeFunction, AddFunction
 from Optimise import Optimise
 from NLL import NLL
 from PDFGen import PDFGen
 from Data import Data
-import matplotlib.pylab as pl
+from Plot import Plot
+
 import sys
 import copy
 
@@ -64,9 +68,10 @@ class Organise(object):
 
         #now plotting
         #----------------------------------------------------------------------
-        self.plotDistributions(t_thetaValsCoupled, "Coupled")
-        self.plotDistributions(t_thetaValsP1, "P1")
-        self.plotDistributions(t_thetaValsP2, "P2")
+        plotter = Plot()
+        plotter.plotDistributions(t_thetaValsCoupled, "Coupled")
+        plotter.plotDistributions(t_thetaValsP1, "P1")
+        plotter.plotDistributions(t_thetaValsP2, "P2")
 
     def fitTVals(self):
         filename = "data/datafile-Xdecay.txt"
@@ -77,7 +82,7 @@ class Organise(object):
         #too much data!! actual had 100K
         #---------------
         partialData = []
-        for i in range(100000):
+        for i in range(10000):
             partialData.append(dataForNLL[i])
 
         #---------------
@@ -120,19 +125,59 @@ class Organise(object):
         accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
 
         shiftVal = 0.5 + NLLMin
-        shift = AddFunction(-shiftVal)
-        rootShift = ComposeFunction(shift.evalAdd, tDataNLL.evalNLL)
+        shift = lambda a: a - shiftVal
+        rootShift = ComposeFunction(shift, tDataNLL.evalNLL)
+
+        #upperErrors
+        fRoot = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [1,2])[0]
+        tau1Root = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [0,2])[1]
+        tau2Root = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [0,1])[2]
+
+        fPosErr = fRoot - fMin
+        tau1PosErr = tau1Root - tau1Min
+        tau2PosErr = tau2Root - tau2Min
+
+        #lowerErrors
+        jumps = [-item for item in jumps]
 
         fRoot = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [1,2])[0]
         tau1Root = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [0,2])[1]
         tau2Root = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [0,1])[2]
-        fErr = fRoot - fMin
-        tau1Err = tau1Root - tau1Min
-        tau2Err = tau2Root - tau2Min
+
+        fNegErr = fMin - fRoot
+        tau1NegErr = tau1Min - tau1Root
+        tau2NegErr = tau2Min - tau2Root
+
+        #plotting error info
+        numXVals = 50
+        fRange = np.linspace(fMin - 2*fNegErr, fMin + 2*fPosErr, numXVals)
+        tau1Range = np.linspace(tau1Min - 2*tau1NegErr, tau1Min + 2*tau1PosErr, numXVals)
+        tau2Range = np.linspace(tau2Min - 2*tau2NegErr, tau2Min + 2*tau2PosErr, numXVals)
+
+        fYvals = [tDataNLL.evalNLL([val, tau1Min, tau2Min]) for val in fRange]
+        tau1Range = [tDataNLL.evalNLL([fMin, val, tau2Min]) for val in tau1Range]
+        tau2Range = [tDataNLL.evalNLL([fMin, tau1Min, val]) for val in tau2Range]
+
+        #centering around minimum
+        fRange = [val-fMin for val in fRange]
+        tau1Range = [val-tau1Min for val in tau1Range]
+        tau2Range = [val-tau2Min for val in tau2Range]
+
+        fYvals = [val-NLLMin for val in fRange]
+        tau1Yvals = [val-NLLMin for val in tau1Range]
+        tau2Yvals = [val-NLLMin for val in tau2Range]
+
+        plotter = Plot()
+        plotter.errorInfo(fRange, fYvals, [fNegErr, fPosErr], 'F')
+        plotter.errorInfo(tau1Range, tau1Yvals, [tau1NegErr, tau1PosErr], r"$\tau_{1}$")
+        plotter.errorInfo(tau2Range, tau2Yvals, [tau2NegErr, tau2PosErr], r"$\tau_{2}$")
 
         print("F err: " + str(fErr))
         print("Tau1 err: " + str(tau1Err))
         print("Tau2 err: " + str(tau2Err))
+
+
+
 
         fRange = np.linspace(fMin - 2*fErr, fMin + 2*fErr, 50)
         NLLVals = [tDataNLL.evalNLL([val, tau1Min, tau2Min]) for val in fRange]
@@ -156,30 +201,3 @@ class Organise(object):
         print("")
 
         return t_thetaVals
-
-    def plotDistributions(self, t_thetaVals, title):
-        tVals = [item[0] for item in t_thetaVals]
-        thetaVals = [item[1] for item in t_thetaVals]
-
-        pl.figure(1)
-        pl.scatter(thetaVals, tVals, s=1)
-        pl.title( title + " theta vs t occurence scatter")
-        pl.xlabel("t")
-        pl.ylabel("theta")
-
-        #plotting individually
-        tBins = 70
-        pl.figure(2)
-        pl.hist(tVals, bins=tBins)
-        pl.title( title + " t distribution")
-        pl.xlabel("t")
-        pl.ylabel("frequency")
-
-        thetaBins = 70
-        pl.figure(3)
-        pl.hist(thetaVals, bins=thetaBins)
-        pl.title( title + " theta distribution")
-        pl.xlabel("theta")
-        pl.ylabel("frequency")
-
-        pl.show()
