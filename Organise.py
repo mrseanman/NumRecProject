@@ -72,22 +72,22 @@ class Organise(object):
         filename = "data/datafile-Xdecay.txt"
         data = Data(filename)
         func = Function()
-        dataForNNL = [[item] for item in data.tVals]
+        dataForNLL = [[item] for item in data.tVals]
 
-        #too much data!!
+        #too much data!! actual had 100K
         #---------------
         partialData = []
-        for i in range(10000):
-            partialData.append(dataForNNL[i])
+        for i in range(100000):
+            partialData.append(dataForNLL[i])
 
         #---------------
 
         tDataNLL = NLL(func.fThetaIndepPDF, partialData, [1], 4)
 
         #initial guesses
-        fInitial = 0.8
-        tau1Initial = 0.9
-        tau2Initial = 2.5
+        fInitial = 0.9
+        tau1Initial = 1.3
+        tau2Initial = 1.2
         initialGuess = [fInitial, tau1Initial, tau2Initial]
 
         #bounds
@@ -97,8 +97,9 @@ class Organise(object):
         bounds = [fBound, tau1Bound, tau2Bound]
 
         tolerance = 0.00000001
-        soln = optimize.minimize(tDataNLL.evalNLL, initialGuess, bounds=bounds, tol=tolerance, options={'disp': False}).x
+        soln = optimize.minimize(tDataNLL.evalNLL, initialGuess, bounds=bounds, options={'disp': True}).x
         fMin, tau1Min, tau2Min = soln
+        NLLMin = tDataNLL.evalNLL(soln)
 
         print("Max. likelyhood minimum: ")
         print("\tF min:..\t\t" + str(fMin))
@@ -115,28 +116,33 @@ class Organise(object):
 
         fAccuracy = 0.0001
         tau1Accuracy = 0.0001
-        tau2Accuracy = 0.000001
+        tau2Accuracy = 0.0001
         accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
 
-        minus = -0.5-tDataNLL.evalNLL(list(soln))
-        takeHalf = AddFunction(minus)
-        funcToRoot = ComposeFunction(takeHalf.evalAdd, tDataNLL.evalNLL)
+        shiftVal = 0.5 + NLLMin
+        shift = AddFunction(-shiftVal)
+        rootShift = ComposeFunction(shift.evalAdd, tDataNLL.evalNLL)
 
-        print(funcToRoot.evalCompose(soln))
-        fRoot = root.root(funcToRoot.evalCompose, list(soln), jumps, accuracys, [1,2])[0]
+        fRoot = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [1,2])[0]
+        tau1Root = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [0,2])[1]
+        tau2Root = root.root(rootShift.evalCompose, list(soln), jumps, accuracys, [0,1])[2]
         fErr = fRoot - fMin
-        print("FErr: " + str(fErr))
+        tau1Err = tau1Root - tau1Min
+        tau2Err = tau2Root - tau2Min
 
-        fRange = np.linspace(fMin - fErr, fMin + fErr, 50)
-        NLLVals = []
+        print("F err: " + str(fErr))
+        print("Tau1 err: " + str(tau1Err))
+        print("Tau2 err: " + str(tau2Err))
 
-        for val in fRange:
-            NLLVals.append(tDataNLL.evalNLL([val, tau1Min, tau2Min]))
+        fRange = np.linspace(fMin - 2*fErr, fMin + 2*fErr, 50)
+        NLLVals = [tDataNLL.evalNLL([val, tau1Min, tau2Min]) for val in fRange]
+
+        #centering around minimum
+        fRange -= fMin
+        NLLVals = [val - NLLMin for val in NLLVals]
 
         pl.plot(fRange, NLLVals)
         pl.show()
-
-
 
 
     def genMany(self, generator, numEvents):

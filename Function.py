@@ -59,31 +59,21 @@ class Function(object):
         return val
 
 
-
 class FixParams(object):
     def __init__(self, func, numOfParams, fixParamsVals, indexOfFixParams):
         self.func = func
         self.numOfParams = numOfParams
         self.fixParamsVals = fixParamsVals
         self.indexOfFixParams = indexOfFixParams
+        self.indexOfFreeParams = [index for index in range(self.numOfParams) if not(index in indexOfFixParams)]
 
     def eval(self, freeParams):
-        freeParamsCopy = list(copy.deepcopy(freeParams))
-        fixParamsValsCopy = list(copy.deepcopy(self.fixParamsVals))
-
-        finalParams = []
-
-        for i in range(self.numOfParams):
-            if i in self.indexOfFixParams:
-                val = fixParamsValsCopy[0]
-                fixParamsValsCopy.pop(0)
-            else:
-                val = freeParamsCopy[0]
-                freeParamsCopy.pop(0)
-
-            finalParams.append(val)
-
-        return self.func(finalParams)
+        params = range(self.numOfParams)
+        for index, val in enumerate(self.fixParamsVals):
+            params[self.indexOfFixParams[index]] = val
+        for index, val in enumerate(freeParams):
+            params[self.indexOfFreeParams[index]] = val
+        return self.func(params)
 
 
 '''
