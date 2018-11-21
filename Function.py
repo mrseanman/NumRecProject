@@ -87,10 +87,3 @@ class ComposeFunction(object):
 
     def evalCompose(self, params):
         return self.funcToCompose(self.funcInitial(params))
-
-class AddFunction(object):
-    def __init__(self, addX):
-        self.addX = addX
-
-    def evalAdd(self, a):
-        return a + self.addX

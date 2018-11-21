@@ -124,7 +124,7 @@ class Optimise(object):
         for index in range(len(minParams)):
             paramError = self.errorSingleParam(valAtError, func, index, minParams, jumps[index], accuracys[index], limits, names)
             errors.append(paramError)
-            print(inedx)
+            print("Done: " + str(index))
 
         return errors
 

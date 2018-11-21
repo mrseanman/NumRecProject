@@ -8,8 +8,10 @@ from scipy import optimize
 import sys
 import copy
 from iminuit import Minuit
+import matplotlib.pylab as pl
+import pprint
 
-from Function import Function, FixParams, ComposeFunction, AddFunction
+from Function import Function, FixParams, ComposeFunction
 from Optimise import Optimise
 from NLL import NLL
 from PDFGen import PDFGen
@@ -47,7 +49,7 @@ class Organise(object):
         print("Generating coupled random events...")
         #t in [0]
         #theta in [1]
-        t_thetaValsCoupled = self.genMany(coupledFixedGen, numEvents)
+        t_thetaValsCoupled = coupledFixedGen.manyBox(numEvents)
 
         #only P1
         #----------------------------------------------------------------------
@@ -56,7 +58,7 @@ class Organise(object):
         P1FixedGen = PDFGen(P1Fixed.eval, freeParamRanges, maxPDFVal)
 
         print("Generating P1 only random events...")
-        t_thetaValsP1 = self.genMany(P1FixedGen, numEvents)
+        t_thetaValsP1 = P1FixedGen.manyBox(numEvents)
 
         #only P2
         #----------------------------------------------------------------------
@@ -65,7 +67,7 @@ class Organise(object):
         P2FixedGen = PDFGen(P2Fixed.eval, freeParamRanges, maxPDFVal)
 
         print("Generating P2 only random events...")
-        t_thetaValsP2 = self.genMany(P2FixedGen, numEvents)
+        t_thetaValsP2 = P2FixedGen.manyBox(numEvents)
 
         #now plotting
         #----------------------------------------------------------------------
@@ -93,8 +95,9 @@ class Organise(object):
         tau2Initial = 1.2
         initialGuess = (fInitial, tau1Initial, tau2Initial)
 
-        self.fit(func.fThetaIndepPDF, partialData, [1], 4, initialGuess)
-        self.simplisticErrors(self.nllEvaluator, self.soln)
+        nllCalc = NLL(func.fThetaIndepPDF, partialData, [1], 4)
+        self.fit(nllCalc, initialGuess)
+        self.simplisticErrors(self.nllEvaluator, self.fitSoln)
 
     def fitFull(self):
         filename = "data/datafile-Xdecay.txt"
@@ -106,28 +109,34 @@ class Organise(object):
         #too much data!! actual had 100K
         #---------------
         partialData = []
-        for i in range(50000):
+        for i in range(100000):
             partialData.append(fullData[i])
         #---------------
 
         #initial guesses
-        fInitial = 0.2
-        tau1Initial = 1.6
-        tau2Initial = 1.4
+        fInitial = 0.55
+        tau1Initial = 1.40
+        tau2Initial = 2.71
         initialGuess = (fInitial, tau1Initial, tau2Initial)
 
-        self.fit(func.fPDF, partialData, [1,2], 5, initialGuess)
-        
+        nllCalc = NLL(func.fPDF, partialData, [1,2], 5)
+
+        self.fit(nllCalc, initialGuess)
+
+        plotter = Plot()
+        print("Plots:\n------------------------")
+        plotter.errorCtr(self.minuit, self.fitSoln)
+
         opt = Optimise()
 
-        fJump = 0.001
+        fJump = 0.01
         tau1Jump = 0.01
         tau2Jump = 0.01
-        jumps = [fJump, tau1Jump, tau2Jump]
+        posJumps = [fJump, tau1Jump, tau2Jump]
 
-        fAccuracy = 0.0001
-        tau1Accuracy = 0.0001
-        tau2Accuracy = 0.0001
+        fAccuracy = 0.00001
+        tau1Accuracy = 0.00001
+        tau2Accuracy = 0.00001
         accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
 
         fBound = (0.00001,0.999999)
@@ -135,17 +144,28 @@ class Organise(object):
         tau2Bound = (0.00001,20.)
         bounds = (fBound, tau1Bound, tau2Bound)
 
-        posErr = opt.error(self.nllEvaluator.evalNLL, self.soln, 0.5, jumps, accuracys, bounds, ("f", "tau1", "tau2"))
-        print(posErr)
+        print("PosErrs:\n------------------------")
+        posErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, posJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        fPosErr, tau1PosErr, tau2PosErr = posErr
 
+        print("NegErrs:\n------------------------")
+        negJumps = [-item for item in posJumps]
+        negErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, negJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        fNegErr, tau1NegErr, tau2NegErr = [-val for val in negErr]
 
+        fMeanErr = 0.5*(fNegErr + fPosErr)
+        tau1MeanErr = 0.5*(tau1NegErr + tau1PosErr)
+        tau2MeanErr = 0.5*(tau2NegErr + tau2PosErr)
 
+        print("")
+        print("Errors for NLL minimum (full): ")
+        print("------------------------------------------")
+        print("F   :\t+" + str(fPosErr) + "\t-" + str(fNegErr) + "\t mean:" + str(fMeanErr))
+        print("Tau1:\t+" + str(tau1PosErr) + "\t-" + str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
+        print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
+        print("")
 
-
-
-    def fit(self, pdf, data, dataParamsIndex, numPDFParams, initialGuess):
-        nllCalc = NLL(pdf, data, dataParamsIndex, numPDFParams)
-
+    def fit(self, nllCalc, initialGuess):
         #bounds
         fBound = (0.00001,0.999999)
         tau1Bound = (0.00001,20.)
@@ -162,6 +182,7 @@ class Organise(object):
                                     name = ("f", "tau1", "tau2"), errordef=0.5)
 
         m.migrad()
+
         soln = [value for (key,value) in m.values.items()]
         NLLMin = nllCalc.evalNLL(soln)
         fMin, tau1Min, tau2Min = soln
@@ -173,8 +194,8 @@ class Organise(object):
         print("Tau2:\t" + str(tau2Min))
         print("")
 
-        self.nllEvaluator = nllCalc
-        self.soln = soln
+        self.minuit = m
+        self.fitSoln = soln
 
     def simplisticErrors(self, nllCalc, soln):
         fMin, tau1Min, tau2Min = soln
@@ -252,15 +273,3 @@ class Organise(object):
         plotter.errorInfo(fRangeCen, fYvalsCen, [fNegErr, fPosErr], 'F')
         plotter.errorInfo(tau1RangeCen, tau1YvalsCen, [tau1NegErr, tau1PosErr], r"$\tau_{1}$")
         plotter.errorInfo(tau2RangeCen, tau2YvalsCen, [tau2NegErr, tau2PosErr], r"$\tau_{2}$")
-
-    def genMany(self, generator, numEvents):
-        t_thetaVals = []
-
-        for i in range(numEvents):
-            #shows a little progress indicator
-            sys.stdout.write("\r" + str(100*i/numEvents)[0:3] + "%")
-            t_thetaVals.append(generator.nextBox())
-            sys.stdout.flush()
-        print("")
-
-        return t_thetaVals

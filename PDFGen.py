@@ -29,3 +29,15 @@ class PDFGen(object):
                 foundVal = True
 
         return evalParams
+
+    def manyBox(self, numEvents):
+        vals = []
+
+        for i in range(numEvents):
+            #shows a little progress indicator
+            sys.stdout.write("\r" + str(100*i/numEvents)[0:3] + "%")
+            vals.append(self.nextBox())
+            sys.stdout.flush()
+        print("")
+
+        return vals

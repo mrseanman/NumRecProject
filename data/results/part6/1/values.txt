@@ -1,0 +1,7 @@
+fInitial = 0.55
+tau1Initial = 1.40
+tau2Initial = 2.71
+
+total data 100k!!
+
+started wed 21st 11:45
