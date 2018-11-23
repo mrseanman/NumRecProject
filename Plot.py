@@ -9,22 +9,22 @@ class Plot(object):
 
         pl.figure(1)
         pl.scatter(thetaVals, tVals, s=1)
-        pl.title( title + r"$\theta$ vs $t$ occurence scatter")
-        pl.xlabel(r"$t$")
-        pl.ylabel(r"$\theta$")
+        pl.title( title + r" $\theta$ vs $t$ occurence scatter")
+        pl.xlabel(r"$\theta$")
+        pl.ylabel(r"$t$")
 
         #plotting individually
         tBins = 70
         pl.figure(2)
         pl.hist(tVals, bins=tBins)
-        pl.title( title + r"$t$ distribution")
+        pl.title( title + r" $t$ distribution")
         pl.xlabel(r"$t$")
         pl.ylabel("frequency")
 
         thetaBins = 70
         pl.figure(3)
         pl.hist(thetaVals, bins=thetaBins)
-        pl.title( title + r"$\theta$ distribution")
+        pl.title( title + r" $\theta$ distribution")
         pl.xlabel(r"$\theta$")
         pl.ylabel("frequency")
 

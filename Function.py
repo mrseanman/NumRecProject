@@ -7,25 +7,43 @@ import copy
 
 class Function(object):
 
+    #this assumes t in [0,infinity]
+    def p1PDF(self, params):
+        t, theta, tau1 = params
+        norm1 = 3*np.pi * tau1
+        val = (1. + (np.cos(theta))**2.)*np.exp(-t/tau1)
+        return val/norm1
+
     #normalisation constant is becuase....
     #t in [0,10]
     #theta in [0, 2pi]
-    def p1PDF(self, params):
+    def p1PDF_tRange(self, params):
         t, theta, tau1 = params
 
         norm1 = -3*np.pi * ( tau1*np.exp(-10./tau1) - tau1)
         val = (1. + (np.cos(theta))**2.)*np.exp(-t/tau1)
         return val/norm1
 
-
+#-----------------------------------------------------------------------
+    #this assumes t in [0,infinity]
     def p2PDF(self, params):
+        t, theta, tau2 = params
+
+        norm2 = 3*np.pi * tau2
+        val = 3*((np.sin(theta))**2.)*np.exp(-t/tau2)
+        return val/norm2
+
+    #normalisation constant is becuase....
+    #t in [0,10]
+    #theta in [0, 2pi]
+    def p2PDF_tRange(self, params):
         t, theta, tau2 = params
 
         norm2 = -3*np.pi * ( tau2*np.exp(-10./tau2) - tau2)
         val = 3*((np.sin(theta))**2.)*np.exp(-t/tau2)
         return val/norm2
 
-
+    #--------------------------------------------------------------------------
     #overall pdf for a fraction
     #f of pdf1  and
     #(1-f) of pdf2
@@ -34,6 +52,12 @@ class Function(object):
 
         val = f*self.p1PDF([t, theta, tau1]) + (1-f)*self.p2PDF([t, theta, tau2])
         return val
+
+    def fPDF_tRange(self,params):
+        f, t, theta, tau1, tau2 = params
+        val = f*self.p1PDF_tRange([t, theta, tau1]) + (1-f)*self.p2PDF_tRange([t, theta, tau2])
+        return val
+
 
     '''
     Could have chosen theta from uniform distribution in [0,2pi]

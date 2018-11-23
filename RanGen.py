@@ -1,6 +1,8 @@
 import numpy as np
 
-class PDFGen(object):
+import sys
+
+class RanGen(object):
 
     #paramRanges to be given as...
     #[[p1Lower, p1upper], [p2lower, p2upper], ....]

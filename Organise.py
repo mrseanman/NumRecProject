@@ -14,7 +14,7 @@ import pprint
 from Function import Function, FixParams, ComposeFunction
 from Optimise import Optimise
 from NLL import NLL
-from PDFGen import PDFGen
+from RanGen import RanGen
 from Data import Data
 from Plot import Plot
 
@@ -43,8 +43,8 @@ class Organise(object):
         #random num generator for F = 0.5
         #----------------------------------------------------------------------
         coupledPDF = Function()
-        coupledFixed = FixParams(coupledPDF.fPDF, 5, [F, tau1, tau2], [0,3,4])
-        coupledFixedGen = PDFGen(coupledFixed.eval, freeParamRanges, maxPDFVal)
+        coupledFixed = FixParams(coupledPDF.fPDF_tRange, 5, [F, tau1, tau2], [0,3,4])
+        coupledFixedGen = RanGen(coupledFixed.eval, freeParamRanges, maxPDFVal)
 
         print("Generating coupled random events...")
         #t in [0]
@@ -55,7 +55,7 @@ class Organise(object):
         #----------------------------------------------------------------------
         F = 1.
         P1Fixed = FixParams(coupledPDF.fPDF, 5, [F, tau1, tau2], [0,3,4])
-        P1FixedGen = PDFGen(P1Fixed.eval, freeParamRanges, maxPDFVal)
+        P1FixedGen = RanGen(P1Fixed.eval, freeParamRanges, maxPDFVal)
 
         print("Generating P1 only random events...")
         t_thetaValsP1 = P1FixedGen.manyBox(numEvents)
@@ -64,7 +64,7 @@ class Organise(object):
         #----------------------------------------------------------------------
         F = 0.
         P2Fixed = FixParams(coupledPDF.fPDF, 5, [F, tau1, tau2], [0,3,4])
-        P2FixedGen = PDFGen(P2Fixed.eval, freeParamRanges, maxPDFVal)
+        P2FixedGen = RanGen(P2Fixed.eval, freeParamRanges, maxPDFVal)
 
         print("Generating P2 only random events...")
         t_thetaValsP2 = P2FixedGen.manyBox(numEvents)
