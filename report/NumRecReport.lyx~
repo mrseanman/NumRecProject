@@ -2652,11 +2652,12 @@ Error contours for fit in Section 3
 
 \end_layout
 
+\begin_layout Section*
+Conclusion
+\end_layout
+
 \begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
+For this 
 \end_layout
 
 \begin_layout Part*
@@ -3194,17 +3195,25 @@ While fixing
 \begin_inset Formula $q_{j}^{'}$
 \end_inset
 
- minimise the NLL to find the new minimum NLL value 
+ and starting from 
+\begin_inset Formula $\{q^{'}\}$
+\end_inset
+
+ re-minimise the NLL to find the new minimum NLL value 
 \begin_inset Formula $l^{'}$
 \end_inset
 
- and minima parameters 
+ and new minima parameters 
 \begin_inset Formula $\{q_{i}^{\text{re-min}}\}$
 \end_inset
 
 .
- Note that here 
-\begin_inset Formula $q_{i}^{\text{re-min}}=q_{j}^{'}$
+ Note by fixing 
+\begin_inset Formula $q_{j}^{'}$
+\end_inset
+
+ here 
+\begin_inset Formula $q_{j}^{\text{re-min}}=q_{j}^{'}$
 \end_inset
 
 
@@ -3300,6 +3309,17 @@ minuit.minos()
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Appendix
 \end_layout
 
 \end_body

@@ -1941,7 +1941,7 @@ The upper and lower bounds for the
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -2563,10 +2563,6 @@ Data
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -2652,12 +2648,110 @@ Error contours for fit in Section 3
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/conclusion_1.png
+	lyxscale 30
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Histogram of t data alongside 
+\begin_inset Formula $P_{t}$
+\end_inset
+
+ with values from run (2) in Table 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Conclusion
 \end_layout
 
 \begin_layout Standard
-For this 
+The fit in section 2 was unstable and unreliable, but when the final result
+ of the method 
+\begin_inset Formula $P_{t}$
+\end_inset
+
+ is examined as is done in Figure 7, it is clear that 
+\begin_inset Formula $P_{t}(t;0.962,1.925,0.513)$
+\end_inset
+
+ is a perfectly good model for the t data.
+ The problem was not that the model was incorrect but that it was overcomplex.
+ Any dataset with a simple distribution 
+\begin_inset Flex Emph
+status open
+
+\begin_layout Plain Layout
+can
+\end_layout
+
+\end_inset
+
+ be accurately modelled by a complex PDF, so long as it has the correct
+ simple part as a component.
+ Issues arise when the parameters of these over complex PDFs are being determine
+d.
+ This is because the NLL is more likely to have multiple local minima and
+ minima along lines (as in run (3) in Table 1) or planes of correlated parameter
+s, rather than at points.
+ 
+\end_layout
+
+\begin_layout Standard
+In this simple case, a human observation of the t data would have shown
+ that the data is modelled best by a simple PDF rather than a complex one
+ but in more complex problems such an intervention is not possible.
+ In that case, such non point, poorly behaved minima could be used to suggest
+ that the model is overcomplex or that there is not yet enough data to determine
+ the parameters of the model.
+\end_layout
+
+\begin_layout Standard
+In that sense, this problem was not only an example of bad parameter fitting
+ practices but touched on the subtle concept of the information content
+ of datasets.
 \end_layout
 
 \begin_layout Part*
@@ -3320,6 +3414,83 @@ minuit.minos()
 
 \begin_layout Part*
 Appendix
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/Organise.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/Plot.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/Optimise.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/NLL.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/Function.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/RanGen.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "/home/sean/Documents/NumRec/Project/Data.py"
+lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
 \end_layout
 
 \end_body

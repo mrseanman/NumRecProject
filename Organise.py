@@ -76,6 +76,7 @@ class Organise(object):
         plotter.plotDistributions(t_thetaValsP1, "P1")
         plotter.plotDistributions(t_thetaValsP2, "P2")
 
+
     def fitTVals(self):
         filename = "data/datafile-Xdecay.txt"
         data = Data(filename)
@@ -90,11 +91,11 @@ class Organise(object):
             partialData.append(dataForNLL[i])
         #---------------
         '''
-        
+
         #initial guesses
-        fInitial = 0.88
-        tau1Initial = 0.3
-        tau2Initial = 5.0
+        fInitial = 0.962
+        tau1Initial = 1.925
+        tau2Initial = 0.513
         initialGuess = (fInitial, tau1Initial, tau2Initial)
 
         print("Initial Guesses:")
@@ -103,6 +104,28 @@ class Organise(object):
         nllCalc = NLL(func.fThetaIndepPDF, dataForNLL, [1], 4)
 
         self.fit(nllCalc, initialGuess)
+
+
+
+
+        pdffer = FixParams(func.fThetaIndepPDF, 4, self.fitSoln, [0,2,3])
+        bins = 200
+        pl.hist(data.tVals, bins = bins)
+        norm = 100000.*10./bins
+        tRange = np.linspace(0.,10., bins)
+        pdfVals = [norm * pdffer.eval([t]) for t in tRange]
+        pl.xlabel("t")
+        pl.ylabel("frequency")
+        pl.plot(tRange, pdfVals)
+        pl.show()
+
+
+
+
+
+
+
+
         #plotter = Plot()
         #plotter.errorCtr(self.minuit, self.fitSoln)
 
@@ -232,6 +255,9 @@ class Organise(object):
                                     name = ("f", "tau1", "tau2"), errordef=0.5)
 
         m.migrad()
+        print("NLL val:")
+        print(m.fval)
+        print("")
         #pprint.pprint(m.minos())
 
         soln = [value for (key,value) in m.values.items()]
