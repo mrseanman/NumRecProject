@@ -31,6 +31,7 @@ logicalmkup
 \output_sync 0
 \bibtex_command default
 \index_command default
+\float_placement tbph
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -97,11 +98,10 @@ Sean O'Brien
 
 \begin_layout Abstract
 This is a meta-analysis of parameter finding techniques.
- The techniques in question are those of maximum likelyhood fitting, which
- finds parameters of a PDF (probability density function) using NLL (negative
- log likelihood) and single value function minimisation.
- These techniques have very broad application in scientific data analysis
- and their reliability and pitfalls should be understood.
+ Specifically maximum likelyhood fitting, which finds parameters of a PDF
+ by minimising the NLL function.
+ This technique has very broad application in scientific data analysis and
+ its reliability and pitfalls should be understood.
 \end_layout
 
 \begin_layout Abstract
@@ -110,8 +110,8 @@ In particular, the situation of mismatched PDF complexity to data content
  The behaviour and stability of fit minima was tested when full and partial
  data was used to estimate the parameters of a relatively complex PDF.
  The findings showed that when only the partial data was used the parameter
- estimation values differed greatly from when the full data was used and
- that the minima from the partial data was unstable i.e.
+ estimation values differed significantly from when the full data was used
+ and that the minima from the partial data were unstable i.e.
  the results depended on the minimisation initial guess.
  When the full data was used and the PDF complexity was matched by the data,
  the fit was stable and gave repeatable results.
@@ -137,7 +137,7 @@ The data consisted of 100,000 points, each consisting of a
 status open
 
 \begin_layout Plain Layout
-PDF
+PDF (Probability Density Function)
 \end_layout
 
 \end_inset
@@ -157,7 +157,7 @@ PDF
 
 \begin_inset Formula 
 \[
-P_{1}(t,\theta;\tau_{1})=\frac{1}{3\pi\tau_{1}}(1+\cos^{2}\theta)e^{-\frac{t}{\tau_{1}}}\:\:\:\:\:\:P_{2}(t,\theta;\tau_{2})=\frac{1}{\pi\tau_{2}}\sin^{2}e^{-\frac{t}{\tau_{2}}}
+P_{1}(t,\theta;\tau_{1})=\frac{1}{3\pi\tau_{1}}(1+\cos^{2}\theta)e^{-\frac{t}{\tau_{1}}}\;\;\;\;\;\;\;\;\;\;P_{2}(t,\theta;\tau_{2})=\frac{1}{\pi\tau_{2}}\sin^{2}e^{-\frac{t}{\tau_{2}}}
 \]
 
 \end_inset
@@ -184,7 +184,13 @@ The paramters estimated were
 .
  This was done by performing a maximum likelyhood fit.
  Which involves minimising the 
-\begin_inset Formula $NLL$
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+NLL (Negative Log Likelyhood)
+\end_layout
+
 \end_inset
 
  related to the parameters in question.
@@ -206,7 +212,40 @@ Where each
 \begin_inset Formula $t_{i},\theta_{i}$
 \end_inset
 
- are points in our dataset.
+ were points in the dataset.
+\end_layout
+
+\begin_layout Standard
+The errors on the parameter estimations were also found using the NLL.
+ The points at which the NLL is 0.5 above its minimum value are points that
+ are 1 standard deviation 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ from the minima.
+ Justification for this is exculded from the report and exactly how the
+ standard errors were found using this fact is explained further in the
+ 
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+simplistic error method
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+full error method
+\end_layout
+
+\end_inset
+
+ entries in the glossary.
 \end_layout
 
 \begin_layout Subsection*
@@ -214,7 +253,18 @@ Notes
 \end_layout
 
 \begin_layout Itemize
-If appropriate, a method or expression used will be explained in the glossary.
+Where appropriate, a method or expression will be explained in the glossary
+ and in its first reference will be in 
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+This Font
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -250,6 +300,165 @@ https://github.com/mrseanman/NumRecProject
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/coupled_t.png
+	lyxscale 30
+	scale 55
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/coupled_theta.png
+	lyxscale 30
+	scale 55
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Coupled distributions 
+\begin_inset Formula $F=0.5,\tau_{1}=1.0,\tau_{2}=2.0$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Coupled-distributions-1"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p1_t.png
+	lyxscale 30
+	scale 55
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p1_theta.png
+	lyxscale 30
+	scale 55
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{1}$
+\end_inset
+
+ only distributions 
+\begin_inset Formula $F=1.0,\tau_{1}=1.0,\tau_{2}=2.0$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:P1-distributions-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p2_t.png
+	lyxscale 30
+	scale 55
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p2_theta.png
+	lyxscale 30
+	scale 55
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{2}$
+\end_inset
+
+ only distributions 
+\begin_inset Formula $F=0.0,\tau_{1}=1.0,\tau_{2}=2.0$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:P2-distributions-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Investigation of 
 \begin_inset Formula $P(t,\theta)$
@@ -267,8 +476,8 @@ Investigation of
 \begin_inset Formula $P(t,\theta)$
 \end_inset
 
- PDF with various values for 
-\begin_inset Formula $F,\tau_{1},\tau_{1}$
+ PDF with certain values for 
+\begin_inset Formula $F,\tau_{1},\tau_{2}$
 \end_inset
 
  The random generator employed the 
@@ -314,181 +523,69 @@ box method
 \end_layout
 
 \begin_layout Standard
-Below are plots of the simulated data.
+Figures 1-3 show distributions of the simulated data for different values
+ of 
+\begin_inset Formula $F$
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/coupled_t.png
-	scale 55
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/coupled_theta.png
-	scale 55
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Coupled distributions 
-\begin_inset Formula $F=0.5,\tau_{1}=1.0,\tau_{2}=2.0$
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Coupled-distributions"
-
-\end_inset
-
- 
+\begin_layout Subsection
+Comments on the distributions.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p1_t.png
-	scale 55
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p1_theta.png
-	scale 55
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Formula $P_{1}$
-\end_inset
-
- only distributions 
-\begin_inset Formula $F=1.0,\tau_{1}=1.0,\tau_{2}=2.0$
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:P1-distributions"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p2_t.png
-	scale 55
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename /home/sean/Documents/NumRec/Project/data/results/part1/1/p2_theta.png
-	scale 55
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Formula $P_{2}$
-\end_inset
-
- only distributions 
-\begin_inset Formula $F=0.0,\tau_{1}=1.0,\tau_{2}=2.0$
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:P2-distributions"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-comments on how easily a fit would distinguish components
-\end_layout
-
-\begin_layout Standard
-text
-\end_layout
-
-\begin_layout Standard
-text
-\end_layout
-
-\begin_layout Section
-Maximum Likelyhood fit on 
+\begin_layout Itemize
+The 
 \begin_inset Formula $t$
 \end_inset
 
- data only
+ distributions in Figures 1-3 are all of very similar form.
+ What is most significant to this report is that the 
+\begin_inset Formula $t$
+\end_inset
+
+ distribution of the coupled PDF in Figure 1 where 
+\begin_inset Formula $F=0.5$
+\end_inset
+
+ is essentially indistinguishable in form from a simple exponential distribution
+ as in Figures 2 and 3.
+ 
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Formula $\theta$
+\end_inset
+
+ distributions in Figures 1-3 show very different form and importantly,
+ the structure of the 
+\begin_inset Formula $\theta$
+\end_inset
+
+ distribution in Figure 1 shows form that cannot be modeled by 
+\begin_inset Formula $P_{1}$
+\end_inset
+
+ or 
+\begin_inset Formula $P_{2}$
+\end_inset
+
+ alone.
+\end_layout
+
+\begin_layout Section
+Maximum Likelyhood Fit on 
+\begin_inset Formula $t$
+\end_inset
+
+ Data Only
 \end_layout
 
 \begin_layout Standard
 A maximum likelyhood fit was performed on the 
-\begin_inset Formula $t$
+\begin_inset Formula $(t)$
 \end_inset
 
  data only.
@@ -514,20 +611,39 @@ A maximum likelyhood fit was performed on the
 \end_inset
 
 .
- The resulting PDFs were 
-\begin_inset Formula $P_{1_{t}}(t)=\frac{1}{\tau_{1}}e^{-\frac{t}{\tau_{1}}}$
+ The resulting PDFs were
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{1_{t}}(t)=\frac{1}{\tau_{1}}e^{-\frac{t}{\tau_{1}}}\;\;\;\;\;\;\;\;\;\;P_{2_{t}}(t)=\frac{1}{\tau_{2}}e^{-\frac{t}{\tau_{2}}}
+\]
+
 \end_inset
 
-and 
-\begin_inset Formula $P_{2_{t}}(t)=\frac{1}{\tau_{2}}e^{-\frac{t}{\tau_{2}}}$
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+and similar to before
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}(F,t)=FP_{1_{t}}(t)+(1-F)P_{2_{t}}(t)
+\]
+
 \end_inset
 
- and similar to before 
-\begin_inset Formula $P_{t}(F,t)=FP_{1_{t}}(t)+(1-F)P_{2_{t}}(t)$
-\end_inset
 
-.
- For infinite data points this approach is equivalent to leaving 
+\end_layout
+
+\begin_layout Standard
+For infinite data points this approach is equivalent to leaving 
 \begin_inset Formula $P(t,\theta)$
 \end_inset
 
@@ -540,13 +656,14 @@ and
 \end_inset
 
 .
- The method of integrating over 
-\begin_inset Formula $\theta$
+ Although in this case there are many data points, using 
+\begin_inset Formula $P_{t}$
 \end_inset
 
  was chosen as it was more deterministic and afforded more confidence when
  comparing results of different runs.
- 
+ Having the integrated form also showed analytically the behaviour of the
+ new PDF.
 \end_layout
 
 \begin_layout Standard
@@ -558,18 +675,8 @@ Several of these fits were run with different starting values, which resulted
 \end_layout
 
 \begin_layout Standard
-The errors swown in Table 1 are the mean of the modulo of the positive and
- negative errors calculated using the 
-\begin_inset Flex Noun
-status open
-
-\begin_layout Plain Layout
-simplistic error method.
-\end_layout
-
-\end_inset
-
- 
+The errors shown in Table 1 are the mean of the modulo of the positive and
+ negative errors calculated using the simplistic error method.
 \end_layout
 
 \begin_layout Standard
@@ -577,7 +684,7 @@ Plots of
 \begin_inset Formula $\Delta NLL$
 \end_inset
 
- around the parameter minimas in run(3) are given in Figure 4
+ around the parameter minimas in run (2) are given in Figure 4
 \end_layout
 
 \begin_layout Subsection
@@ -592,8 +699,8 @@ A large range of starting parameters were tested and all the resulting minima
 \end_layout
 
 \begin_layout Itemize
-The result of run(2) could have been predicted from run(1).
- Going from run(1) to run(2) we see they relate by swapping 
+The result of run (2) could have been predicted from run (1).
+ Going from run (1) to run (2) we see they relate by swapping 
 \begin_inset Formula $\tau_{1}$
 \end_inset
 
@@ -618,7 +725,7 @@ The result of run(2) could have been predicted from run(1).
 \end_layout
 
 \begin_layout Itemize
-What has occured in run(3) is that in this local minimum in which 
+What has occured in run (3) is that a local minimum in which 
 \begin_inset Formula $\tau_{1}=\tau_{2}$
 \end_inset
 
@@ -650,53 +757,11 @@ minuit.is_valid
  Because of the nature of this report it is left in.
 \end_layout
 
-\begin_layout Itemize
-For the errors in this fit, the 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-minuit.hesse()
-\end_layout
-
-\end_inset
-
- error calculator was not adequate as is warned about in the iminuit documentati
-on.
- The values in Table 1 were calculated using my own implementation of the
- 
-\begin_inset Flex Noun
-status open
-
-\begin_layout Plain Layout
-full error method
-\end_layout
-
-\end_inset
-
- and were checked against the more thorough 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-minuit.minos()
-\end_layout
-
-\end_inset
-
- method.
- 
-\end_layout
-
 \begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -750,7 +815,7 @@ status open
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -777,7 +842,7 @@ Initial
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -952,7 +1017,7 @@ run
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1044,7 +1109,7 @@ run
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1136,7 +1201,7 @@ run
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1243,15 +1308,14 @@ run
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
 	filename /home/sean/Documents/NumRec/Project/data/results/part2/8/delta_f.png
+	lyxscale 30
 	scale 35
 
 \end_inset
@@ -1259,6 +1323,7 @@ status open
 
 \begin_inset Graphics
 	filename /home/sean/Documents/NumRec/Project/data/results/part2/8/delta_tau1.png
+	lyxscale 30
 	scale 35
 
 \end_inset
@@ -1266,6 +1331,7 @@ status open
 
 \begin_inset Graphics
 	filename /home/sean/Documents/NumRec/Project/data/results/part2/8/delta_tau2.png
+	lyxscale 30
 	scale 35
 
 \end_inset
@@ -1285,21 +1351,17 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
 \end_layout
 
 \begin_layout Section
-Maximum Likelyhood fit on full 
+Maximum Likelyhood Fit on Full 
 \begin_inset Formula $t,\theta$
 \end_inset
 
- data
+ Data
 \end_layout
 
 \begin_layout Standard
@@ -1307,26 +1369,60 @@ A maximum likelyhood fit was performed finding the parameters of
 \begin_inset Formula $P(t,\theta)$
 \end_inset
 
- as described in the introduction.
- The values of the parameter estimations and errors are given in Table 2.
- All starting parameters tried resulted in the same fit parameters.
+ using the full 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ data.
+ A comparison of the fit using full 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ data and 
+\begin_inset Formula $(t)$
+\end_inset
+
+ data only is shown in Table 2.
+ The 
+\begin_inset Formula $(t)$
+\end_inset
+
+ only fit is taken from run (2) in Table 1.
+ As in section 2, the errors for the full 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ fit are calculated using the simplistic errors method.
+\end_layout
+
+\begin_layout Standard
+All initial parameters for the 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ fit resulted in the same fit values so a comparison of initial parameters
+ is ommited from Table 2 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Full data fit
+Full 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ and 
+\begin_inset Formula $(t)$
+\end_inset
+
+ only fits
 \end_layout
 
 \end_inset
@@ -1347,8 +1443,9 @@ Full data fit
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="6">
+<lyxtabular version="3" rows="4" columns="7">
 <features tabularvalignment="middle">
+<column alignment="left" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -1356,7 +1453,16 @@ Full data fit
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1412,7 +1518,16 @@ Errors
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1486,29 +1601,14 @@ Errors
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.038
-\end_layout
-
+\begin_inset Formula $(t,\theta)$
 \end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-0.512
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1.92
 \end_layout
 
 \end_inset
@@ -1517,25 +1617,120 @@ Errors
 \begin_inset Text
 
 \begin_layout Plain Layout
+0.540
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.466
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.35
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0030
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0087
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.013
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(t)$
+\end_inset
+
+ run (2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.962
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.925
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.513
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 0.0029
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.036
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 0.0064
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.036
 \end_layout
 
 \end_inset
@@ -1553,11 +1748,926 @@ Errors
 
 \end_layout
 
+\begin_layout Subsection
+Comments on the results
+\end_layout
+
+\begin_layout Itemize
+The fit values for both cases in Table 2 are very different.
+ The 
+\begin_inset Formula $t$
+\end_inset
+
+ data alone is not sufficient to gather an estimate of our fit parameters.
+\end_layout
+
+\begin_layout Itemize
+It is a reasonable assumption that given aribitrarily many points of 
+\begin_inset Formula $(t)$
+\end_inset
+
+ data, the fit values would not approach the values for the full 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ fit.
+ It is the fact that the 
+\begin_inset Formula $\theta$
+\end_inset
+
+ values break the symmetry between the 
+\begin_inset Formula $P_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{2}$
+\end_inset
+
+ PDFs that allows for a proper estimation of the parameters.
+\end_layout
+
+\begin_layout Itemize
+The errors on the two fits are quite similar
+\end_layout
+
+\begin_layout Section
+Full Errors on Fits
+\end_layout
+
+\begin_layout Standard
+The simplistic error method used in Section 2 and Section 3 is only accurate
+ if the the parameters are uncorrelated.
+ In this case the parameters are correlated, especially for the case in
+ Section 2 and the 
+\begin_inset Formula $t$
+\end_inset
+
+ data only fit.
+ 
+\end_layout
+
+\begin_layout Standard
+What must be considered when calculating errors is if one parameter is fixed
+ away from the minimum, how would the other parameters change to re-minimise
+ the NLL.
+ For example, let 
+\begin_inset Formula $F,\tau_{1},\tau_{2}$
+\end_inset
+
+ be set at the minima values for the fit in Section 2.
+ Now increase 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+ by a small ammount.
+ By observing the form of 
+\begin_inset Formula $P_{t}$
+\end_inset
+
+ one can see that if 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+ is now fixed, 
+\begin_inset Formula $F$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{2}$
+\end_inset
+
+ should decrease to re-minimise the NLL.
+ So in this case 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+ is negatively correlated to 
+\begin_inset Formula $F$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{2}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When the parameters are correlated, errors should be calculated using the
+ full errors method.
+ These full error values were calculated for the fits in Section 2 and Section
+ 3.
+ The upper and lower error bounds along with the mean error are shown alongside
+ the fit values in Table 3
+\end_layout
+
+\begin_layout Standard
+Pairwise 
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+Error Contours
+\end_layout
+
+\end_inset
+
+ for the fits in Section 2 and Section 3 are given in Figures 5 and 6.
+\end_layout
+
+\begin_layout Subsection*
+Notes
+\end_layout
+
+\begin_layout Itemize
+For the errors in the Section 2 fit, the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+minuit.hesse()
+\end_layout
+
+\end_inset
+
+ error calculator was not adequate as is warned about in the iminuit documentati
+on.
+ The error values in Table 3 were calculated using my own implementation
+ of the 
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+full error method
+\end_layout
+
+\end_inset
+
+ and were checked against the more thorough 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+minuit.minos()
+\end_layout
+
+\end_inset
+
+ method.
+ 
+\end_layout
+
+\begin_layout Itemize
+The upper and lower bounds for the 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ fit in Section 3 are essentially symmetric about the minimum.
+ The upper and lower bounds for the 
+\begin_inset Formula $(t)$
+\end_inset
+
+ only fit are less symmetric, which suggests the NLL is less parabolic about
+ the minimum than with the full 
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+ fit.
+ This is in agreement with the less ellipsoidal shape of the error contours
+ of Section 2.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fits with full errors
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fit
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Error Bounds
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Error Mean
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $F$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{1}(s)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{2}(s)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $F$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{1}(s)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{2}(s)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $F$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{1}(s)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{2}(s)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(t,\theta)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.540
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.466
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.35
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++0.0032
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++0.0097
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++0.014
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0032
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0097
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0014
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.0032
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.0096
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.014
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $(t)$
+\end_inset
+
+ run (2)
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.962
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.925
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.513
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++0.0059
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++0.0099
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++0.058
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0062
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0097
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.057
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.0065
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.0096
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.0056
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part2/5/stitched.png
+	lyxscale 30
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Error contours for fit in Section 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/sean/Documents/NumRec/Project/data/results/part5/3/stitch.png
+	lyxscale 30
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Error contours for fit in Section 3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Part*
 Glossary
 \end_layout
 
 \begin_layout Itemize
+\begin_inset Flex Strong
+status open
+
+\begin_layout Plain Layout
 \begin_inset Flex Noun
 status open
 
@@ -1570,21 +2680,167 @@ PDF (Pobability Density Function):
 
 \end_layout
 
+\end_inset
+
+ A PDF 
+\begin_inset Formula $P(\{s_{i}^{'}\})$
+\end_inset
+
+ describes the likelyhood of an event having variables at values near 
+\begin_inset Formula $\{s_{i}^{'}\}$
+\end_inset
+
+ i.e.
+ the probability that for each 
+\begin_inset Formula $s_{i},$
+\end_inset
+
+ 
+\begin_inset Formula $s_{i}^{'}\leq s_{i}\leq s_{i}^{'}+ds_{i}=P(\{s_{i}^{'}\})ds_{1}ds_{2}ds_{3}...$
+\end_inset
+
+ In our model the probability that 
+\begin_inset Formula $t^{'}\leq t\leq t^{'}+dt$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta^{'}\leq\theta\leq\theta^{'}+d\theta$
+\end_inset
+
+ is 
+\begin_inset Formula $P(t^{'},\theta^{'})dtd\theta$
+\end_inset
+
+
+\end_layout
+
 \begin_layout Itemize
 \begin_inset Flex Strong
 status open
 
 \begin_layout Plain Layout
-NLL (Negative Log Likelyhood)
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+Maximum Likelyhood:
 \end_layout
 
 \end_inset
 
-: 
+
+\end_layout
+
+\end_inset
+
+ The method to find parameters of a model is maximise the probability that
+ our data events happened given our model.
+ The probability of a single event in our data occuring is proportional
+ to the value of our model's PDF evaluated at that data point.
+ Thus the probability of all the data events happening 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is 
+\begin_inset Formula $\prod_{n}P(d_{n})$
+\end_inset
+
+ where each 
+\begin_inset Formula $d_{n}$
+\end_inset
+
+ is a data point.
+ Maximum Likelyhood is the method of maximising 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ by changing the parameters of 
+\begin_inset Formula $P$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 \begin_inset Flex Strong
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+NLL (Negative Log Likelyhood):
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ When there are many data points, the value of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ as described for maximum likelyhood becomes very small.
+ To make this method more numerically stable and practical for use with
+ computers, 
+\begin_inset Formula $\log\lambda$
+\end_inset
+
+ is maximised instead.
+ Programs traditionally compute minima, so conventionally the minimum of
+ the 
+\begin_inset Formula $NLL=-\log\lambda$
+\end_inset
+
+ is computed.
+ The log turns the product in to a sum and the generalised expression for
+ NLL as given in the introduction is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{NLL}=-\sum_{n}\log P(d_{n})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Flex Strong
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+Fit Values:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The values of the parameters at a minima in our maximum likelyhood fit
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Flex Strong
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex Noun
 status open
 
 \begin_layout Plain Layout
@@ -1596,17 +2852,10 @@ Minima:
 
 \end_layout
 
-\begin_layout Itemize
-\begin_inset Flex Strong
-status open
-
-\begin_layout Plain Layout
-Parameter Estimations:
-\end_layout
-
 \end_inset
 
-
+ A (local unless stated otherwise) minimum point of the NLL on our parameter
+ space.
 \end_layout
 
 \begin_layout Itemize
@@ -1614,12 +2863,57 @@ Parameter Estimations:
 status open
 
 \begin_layout Plain Layout
-Fit:
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
+Error Contours
 \end_layout
 
 \end_inset
 
+:
+\end_layout
 
+\end_inset
+
+ Points on the 2D parameter surface that lie a constant value above the
+ NLL minimum.
+ Importantly, as the 2 parameters are varied a minimiser is constantly running
+ and changing the remaining parameters.
+ For example take the bottom left graph in Figure 5.
+ The blue line represents 
+\begin_inset Formula $(F,\tau_{1})$
+\end_inset
+
+ points where if 
+\begin_inset Formula $F$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+ are kept fixed and then 
+\begin_inset Formula $\tau_{2}$
+\end_inset
+
+ is varied to find a minimum value of NLL.
+ Then that new minimum value is 0.5 above the minimised value of NLL at the
+ blue dot which is our parameter estimation for 
+\begin_inset Formula $F$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+.
+ These contours can show correlation between parameters and give a sense
+ of what shape the minima is.
+ As a general rule the more eccentric the contour, the more correlated the
+ two parameters are.
+ 
 \end_layout
 
 \begin_layout Section*
@@ -1631,6 +2925,10 @@ Methods
 status open
 
 \begin_layout Plain Layout
+\begin_inset Flex Noun
+status open
+
+\begin_layout Plain Layout
 Box Method:
 \end_layout
 
@@ -1639,8 +2937,80 @@ Box Method:
 
 \end_layout
 
+\end_inset
+
+ A method for generating random values according to a given PDF.
+ Say there is a PDF 
+\begin_inset Formula $P(\{s_{i}\})$
+\end_inset
+
+ to be simulated where each 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ has a set, finite range 
+\begin_inset Formula $s_{i_{\text{\text{lower}}}}\leq s_{i}\leq s_{i_{\text{upper}}}.$
+\end_inset
+
+ The method is
+\end_layout
+
+\begin_layout Enumerate
+Find a value 
+\begin_inset Formula $M$
+\end_inset
+
+ that is a maximum of 
+\begin_inset Formula $P(\{s_{i}\})$
+\end_inset
+
+ on the set range.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Get random values of 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ from uniform distributions on their respective ranges.
+\end_layout
+
+\begin_layout Enumerate
+Get a random 
+\begin_inset Formula $y$
+\end_inset
+
+ from a uniform distribution on 
+\begin_inset Formula $[0,M]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $y\leq P(\{s_{i}\})$
+\end_inset
+
+ then return the values 
+\begin_inset Formula $\{s_{i}\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If (4) is not satisfied repeat from (2) until (4) is satisfied.
+ 
+\end_layout
+
 \begin_layout Itemize
 \begin_inset Flex Strong
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex Noun
 status open
 
 \begin_layout Plain Layout
@@ -1652,8 +3022,103 @@ Simplistic Error Method:
 
 \end_layout
 
+\end_inset
+
+ A method for finding the error on a parameter 
+\begin_inset Formula $q_{j}$
+\end_inset
+
+ without re-minimising the remaining parameters 
+\begin_inset Formula $s_{i\neq j}$
+\end_inset
+
+.
+ The method is
+\end_layout
+
+\begin_layout Enumerate
+Minimise the NLL to find the minimum NLL value 
+\begin_inset Formula $l$
+\end_inset
+
+ and minima parameters 
+\begin_inset Formula $\{q_{i}^{\text{min}}\}$
+\end_inset
+
+.
+ Set 
+\begin_inset Formula $\{q_{i}^{'}\}\coloneqq\{q_{i}^{\text{min}}\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose a 'jump value' 
+\begin_inset Formula $\Delta q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Map 
+\begin_inset Formula $q_{j}\rightarrow q_{j}+\Delta q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+In 
+\begin_inset Formula $\{q_{i}^{'}\}$
+\end_inset
+
+ set 
+\begin_inset Formula $q_{j}^{'}\coloneqq q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Evaluate 
+\begin_inset Formula $l^{'}=\text{NLL}(\{q_{i}^{'}\})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $l^{'}\geq l+0.5$
+\end_inset
+
+ then map 
+\begin_inset Formula $\Delta q_{j}\rightarrow-\frac{1}{2}\Delta q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Repeat from (3) until the desired accuracy is obtained
+\end_layout
+
+\begin_layout Enumerate
+The final value of 
+\begin_inset Formula $\left|q^{'}-q_{j}^{\text{min}}\right|$
+\end_inset
+
+ is the simplistic standard error
+\end_layout
+
 \begin_layout Itemize
 \begin_inset Flex Strong
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex Noun
 status open
 
 \begin_layout Plain Layout
@@ -1665,42 +3130,176 @@ Full Error Method:
 
 \end_layout
 
-\begin_layout Itemize
-Minima
+\end_inset
+
+ A method for finding the error on a parameter 
+\begin_inset Formula $q_{j}$
+\end_inset
+
+ while re-minimising the remaining parameters 
+\begin_inset Formula $s_{i\neq j}$
+\end_inset
+
+.
+ It is very similar in structure to the simplistic error method.
+\end_layout
+
+\begin_layout Enumerate
+Minimise the NLL to find the minimum NLL value 
+\begin_inset Formula $l$
+\end_inset
+
+ and minima parameters 
+\begin_inset Formula $\{q_{i}^{\text{min}}\}$
+\end_inset
+
+.
+ Set 
+\begin_inset Formula $\{q_{i}^{'}\}\coloneqq\{q_{i}^{\text{min}}\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose a 'jump value' 
+\begin_inset Formula $\Delta q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Map 
+\begin_inset Formula $q_{j}\rightarrow q_{j}+\Delta q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+In 
+\begin_inset Formula $\{q_{i}^{'}\}$
+\end_inset
+
+ set 
+\begin_inset Formula $q_{j}^{'}\coloneqq q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+While fixing 
+\begin_inset Formula $q_{j}^{'}$
+\end_inset
+
+ minimise the NLL to find the new minimum NLL value 
+\begin_inset Formula $l^{'}$
+\end_inset
+
+ and minima parameters 
+\begin_inset Formula $\{q_{i}^{\text{re-min}}\}$
+\end_inset
+
+.
+ Note that here 
+\begin_inset Formula $q_{i}^{\text{re-min}}=q_{j}^{'}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\begin_inset Formula $\{q_{i}^{'}\}\coloneqq\{q_{i}^{\text{re-min}}\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $l^{'}\geq l+0.5$
+\end_inset
+
+ then map 
+\begin_inset Formula $\Delta q_{j}\rightarrow-\frac{1}{2}\Delta q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Repeat from (3) until the desired accuracy is obtained
+\end_layout
+
+\begin_layout Enumerate
+The final value of 
+\begin_inset Formula $\left|q^{'}-q_{j}^{\text{min}}\right|$
+\end_inset
+
+ is the full standard error on 
+\begin_inset Formula $q_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Notes on error methods
 \end_layout
 
 \begin_layout Itemize
-Parameter Estimations
+Starting with a positive 
+\begin_inset Formula $\Delta q_{j}$
+\end_inset
+
+ will give a positive error, and visa versa.
 \end_layout
 
 \begin_layout Itemize
-Box Method
+If an accuracy of 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is required with a starting jump 
+\begin_inset Formula $\Delta q$
+\end_inset
+
+, then the number 
+\begin_inset Formula $n$
+\end_inset
+
+ times to re-map 
+\begin_inset Formula $\Delta q_{j}$
+\end_inset
+
+ is given 
+\begin_inset Formula $n=\left\lceil \log_{2}\frac{\Delta q_{j}}{\epsilon}\right\rceil $
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-Throughout when 'minima' are mentioned it refers to (local unless mentioned)
- minima of 
-\begin_inset Formula $NLL(F,\tau_{1},\tau_{2})$
+Although structurally very similar, the full error method takes significantly
+ longer to run as it performs many minimisations.
+ The simplistic error method is sufficient for uncorrelated parameters.
+\end_layout
+
+\begin_layout Itemize
+In essence, the full error method describes what is performed by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+minuit.minos()
+\end_layout
+
 \end_inset
 
- and 'parameter estimations' refer to values of 
-\begin_inset Formula $F,\tau_{1},\tau_{2}$
-\end_inset
 
- corresponding to these 
-\begin_inset Formula $NLL$
-\end_inset
-
- minima.
- Any 'fit' involves finding parameter estimations of 
-\begin_inset Formula $P$
-\end_inset
-
- (or similar) by means of minimising 
-\begin_inset Formula $NLL(F,\tau_{1},\tau_{2})$
-\end_inset
-
- as described above.
 \end_layout
 
 \end_body

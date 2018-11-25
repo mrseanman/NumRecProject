@@ -28,7 +28,7 @@ class Optimise(object):
     def minSingleParam(self, func, freeParamIndex, fParams, freeParamJump, accuracy):
         params = copy.deepcopy(fParams)
 
-        numIter = int(math.ceil(-math.log(accuracy/freeParamJump, 2.)))
+        numIter = int(math.ceil(math.log(freeParamJump/accuracy, 2.)))
         if numIter < 1:
             numIter = 1
 

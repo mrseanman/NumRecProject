@@ -30,8 +30,8 @@ class Organise(object):
 
         numEvents = 10000
 
-        #this is known by my me (knowing the PDF)
-        #but is essentially arbitrary (non-negative)
+        #this is known by me (knowing the PDF)
+        #a lazy choice (1 is quite above the max PDF val)
         maxPDFVal = 1.
 
         tLower = 0.
@@ -82,13 +82,15 @@ class Organise(object):
         func = Function()
         dataForNLL = [[item] for item in data.tVals]
 
+        '''
         #too much data!! actual had 100K
         #---------------
         partialData = []
         for i in range(100000):
             partialData.append(dataForNLL[i])
         #---------------
-
+        '''
+        
         #initial guesses
         fInitial = 0.88
         tau1Initial = 0.3
@@ -98,7 +100,7 @@ class Organise(object):
         print("Initial Guesses:")
         print(initialGuess)
 
-        nllCalc = NLL(func.fThetaIndepPDF, partialData, [1], 4)
+        nllCalc = NLL(func.fThetaIndepPDF, dataForNLL, [1], 4)
 
         self.fit(nllCalc, initialGuess)
         #plotter = Plot()
@@ -151,22 +153,25 @@ class Organise(object):
         fullData = zip(data.tVals, data.thetaVals)
         fullData = [list(item) for item in fullData]
 
+        '''
         #too much data!! actual had 100K
         #---------------
         partialData = []
         for i in range(100000):
             partialData.append(fullData[i])
         #---------------
+        '''
 
         #initial guesses
-        fInitial = 0.55
-        tau1Initial = 1.40
-        tau2Initial = 2.71
+        fInitial = 0.6
+        tau1Initial = 2.40
+        tau2Initial = 1.71
         initialGuess = (fInitial, tau1Initial, tau2Initial)
 
-        nllCalc = NLL(func.fPDF, partialData, [1,2], 5)
+        nllCalc = NLL(func.fPDF, fullData, [1,2], 5)
 
         self.fit(nllCalc, initialGuess)
+        #self.simplisticErrors(nllCalc, self.fitSoln)
 
         plotter = Plot()
         print("Plots:\n------------------------")
@@ -227,7 +232,7 @@ class Organise(object):
                                     name = ("f", "tau1", "tau2"), errordef=0.5)
 
         m.migrad()
-        pprint.pprint(m.minos())
+        #pprint.pprint(m.minos())
 
         soln = [value for (key,value) in m.values.items()]
         NLLMin = nllCalc.evalNLL(soln)

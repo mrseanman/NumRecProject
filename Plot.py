@@ -83,7 +83,7 @@ class Plot(object):
         pl.plot(f_tau1x2, f_tau1y2, '-', label='1.0')
         pl.scatter([soln[0]],[soln[1]])
         pl.legend(loc='best')
-        pl.savefig("data/results/part2/5/f_tau1.png")
+        pl.savefig("data/results/part5/3/f_tau1.png")
 
         pl.figure(2)
         pl.title(r"f vs $\tau_{2}$ error contour")
@@ -93,7 +93,7 @@ class Plot(object):
         pl.plot(f_tau2x2, f_tau2y2, '-', label='1.0')
         pl.scatter([soln[0]],[soln[2]])
         pl.legend(loc='best')
-        pl.savefig("data/results/part2/5/f_tau2.png")
+        pl.savefig("data/results/part5/3/f_tau2.png")
 
         pl.figure(3)
         pl.title(r"$\tau_{2}$ vs $\tau_{1}$ error contour")
@@ -103,7 +103,7 @@ class Plot(object):
         pl.plot(tau2_tau1x2, tau2_tau1y2, '-', label='1.0')
         pl.scatter([soln[2]],[soln[1]])
         pl.legend(loc='best')
-        pl.savefig("data/results/part2/5/tau2_tau1.png")
+        pl.savefig("data/results/part5/3/tau2_tau1.png")
 
     def errorInfo(self, xRange, yVals, errors, label):
         numXVals = 50
