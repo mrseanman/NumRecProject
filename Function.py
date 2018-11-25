@@ -24,7 +24,7 @@ class Function(object):
         val = (1. + (np.cos(theta))**2.)*np.exp(-t/tau1)
         return val/norm1
 
-#-----------------------------------------------------------------------
+    #-----------------------------------------------------------------------
     #this assumes t in [0,infinity]
     def p2PDF(self, params):
         t, theta, tau2 = params
@@ -73,7 +73,7 @@ class Function(object):
 
     def thetaIndepPDF(self, params):
         t, tau = params
-        norm = tau * (1 - np.exp(-10./tau))
+        norm = tau
         val = np.exp(-t/tau)
         return val/norm
 

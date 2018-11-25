@@ -1,3 +1,6 @@
+DONT USE
+
+
 fInitial = 0.4
 tau1Initial = 1.9
 tau2Initial = 1.2

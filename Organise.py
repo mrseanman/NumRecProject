@@ -85,19 +85,64 @@ class Organise(object):
         #too much data!! actual had 100K
         #---------------
         partialData = []
-        for i in range(50000):
+        for i in range(100000):
             partialData.append(dataForNLL[i])
         #---------------
 
         #initial guesses
-        fInitial = 0.4
-        tau1Initial = 1.9
-        tau2Initial = 1.2
+        fInitial = 0.88
+        tau1Initial = 0.3
+        tau2Initial = 5.0
         initialGuess = (fInitial, tau1Initial, tau2Initial)
 
+        print("Initial Guesses:")
+        print(initialGuess)
+
         nllCalc = NLL(func.fThetaIndepPDF, partialData, [1], 4)
+
         self.fit(nllCalc, initialGuess)
-        self.simplisticErrors(self.nllEvaluator, self.fitSoln)
+        #plotter = Plot()
+        #plotter.errorCtr(self.minuit, self.fitSoln)
+
+        self.simplisticErrors(nllCalc, self.fitSoln)
+
+        opt = Optimise()
+
+        fJump = 0.01
+        tau1Jump = 0.01
+        tau2Jump = 0.01
+        posJumps = [fJump, tau1Jump, tau2Jump]
+
+        fAccuracy = 0.00001
+        tau1Accuracy = 0.00001
+        tau2Accuracy = 0.00001
+        accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
+
+        fBound = (0.00001,0.999999)
+        tau1Bound = (0.00001,20.)
+        tau2Bound = (0.00001,20.)
+        bounds = (fBound, tau1Bound, tau2Bound)
+
+        print("PosErrs:\n------------------------")
+        posErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, posJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        fPosErr, tau1PosErr, tau2PosErr = posErr
+
+        print("NegErrs:\n------------------------")
+        negJumps = [-item for item in posJumps]
+        negErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, negJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        fNegErr, tau1NegErr, tau2NegErr = [-val for val in negErr]
+
+        fMeanErr = 0.5*(fNegErr + fPosErr)
+        tau1MeanErr = 0.5*(tau1NegErr + tau1PosErr)
+        tau2MeanErr = 0.5*(tau2NegErr + tau2PosErr)
+
+        print("")
+        print("Errors for NLL minimum (full): ")
+        print("------------------------------------------")
+        print("F   :\t+" + str(fPosErr) + "\t-" + str(fNegErr) + "\t mean:" + str(fMeanErr))
+        print("Tau1:\t+" + str(tau1PosErr) + "\t-" + str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
+        print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
+        print("")
 
     def fitFull(self):
         filename = "data/datafile-Xdecay.txt"
@@ -182,6 +227,7 @@ class Organise(object):
                                     name = ("f", "tau1", "tau2"), errordef=0.5)
 
         m.migrad()
+        pprint.pprint(m.minos())
 
         soln = [value for (key,value) in m.values.items()]
         NLLMin = nllCalc.evalNLL(soln)
@@ -214,10 +260,6 @@ class Organise(object):
         accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
 
         shiftVal = 0.5 + NLLMin
-        '''
-        shift = lambda a: a - shiftVal
-        rootShift = ComposeFunction(shift, nllCalc.evalNLL)
-        '''
 
         #upperErrors
         fRoot = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumps, accuracys, [1,2])[0]
@@ -249,6 +291,7 @@ class Organise(object):
         print("Tau1:\t +" + str(tau1PosErr) + "\t-" + str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
         print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
         print("")
+
 
         #plotting error info
         numXVals = 50

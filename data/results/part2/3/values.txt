@@ -1,0 +1,53 @@
+Initial Guesses:
+(0.5, 1.5, 2.3)
+**************************************************
+*                     MIGRAD                     *
+**************************************************
+
+**************************************************************************************
+--------------------------------------------------------------------------------------
+fval = 162665.7446416425 | total call = 81 | ncalls = 81
+edm = 7.8205721507e-07 (Goal: 5e-06) | up = 0.5
+--------------------------------------------------------------------------------------
+|          Valid |    Valid Param | Accurate Covar |         Posdef |    Made Posdef |
+--------------------------------------------------------------------------------------
+|           True |           True |          False |          False |           True |
+--------------------------------------------------------------------------------------
+|     Hesse Fail |        Has Cov |      Above EDM |                |  Reach calllim |
+--------------------------------------------------------------------------------------
+|          False |           True |          False |                |          False |
+--------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+| No | Name |  Value   | Sym. Err |   Err-   |   Err+   | Limit-   | Limit+   | Fixed |
+---------------------------------------------------------------------------------------
+|  0 |    f | 0.458    | 0.583    |          |          | 1E-05    | 1        |       |
+|  1 | tau1 | 1.87     | 0.0271   |          |          | 1E-05    | 20       |       |
+|  2 | tau2 | 1.87     | 0.0119   |          |          | 1E-05    | 20       |       |
+---------------------------------------------------------------------------------------
+**************************************************************************************
+Vals for NLL minimum:
+------------------------------------------
+F:	0.458184353601
+Tau1:	1.87137377741
+Tau2:	1.8713139487
+
+^CTraceback (most recent call last):
+  File "main.py", line 9, in <module>
+    main()
+  File "main.py", line 6, in main
+    do.fitTVals()
+  File "/home/sean/Documents/NumRec/Project/Organise.py", line 104, in fitTVals
+    self.simplisticErrors(nllCalc, self.fitSoln)
+  File "/home/sean/Documents/NumRec/Project/Organise.py", line 265, in simplisticErrors
+    fRoot = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumps, accuracys, [1,2])[0]
+  File "/home/sean/Documents/NumRec/Project/Optimise.py", line 113, in equalTo
+    root = self.root(self.funcMinus, paramsGuess, paramsJump, paramsAccuracy, paramsToFix)
+  File "/home/sean/Documents/NumRec/Project/Optimise.py", line 64, in root
+    params = self.rootSingleParam(func, paramIndex, params, paramsJump[paramIndex], paramsAccuracy[paramIndex])
+  File "/home/sean/Documents/NumRec/Project/Optimise.py", line 91, in rootSingleParam
+    val1 = func(params)
+  File "/home/sean/Documents/NumRec/Project/Optimise.py", line 117, in funcMinus
+    return self.func(params) - self.valueToFind
+  File "/home/sean/Documents/NumRec/Project/NLL.py", line 24, in evalNLL
+    runningNLL +=   L
+KeyboardInterrupt
