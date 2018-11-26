@@ -1,8 +1,12 @@
 import matplotlib.pylab as pl
 import numpy as np
 
+'''
+Where all of the plotting and use of matplotlib is done
+'''
 class Plot(object):
 
+    #plots simulated PDF data
     def plotDistributions(self, t_thetaVals, title):
         tVals = [item[0] for item in t_thetaVals]
         thetaVals = [item[1] for item in t_thetaVals]
@@ -31,10 +35,19 @@ class Plot(object):
 
         pl.show()
 
+    #Takes very long (hence printing done after each bit)
+    #
+    #minuit is instance of Minuit
+    #soln is list of values of parameters at NLL minimum
+    #
+    #make sure saveDestination exists so you dont waste a bunch of time
     def errorCtr(self, minuit, soln):
+        saveDestination = "data/results/part5/3/f_tau1.png"
+
         numPoints = 80
         sigma = 1.0
 
+        #Inner Ring__________________________________________________________
         minuit.set_errordef(0.5)
 
         f_tau1Ctr1 = minuit.mncontour('f','tau1', numpoints=numPoints, sigma=sigma)[2]
@@ -55,6 +68,7 @@ class Plot(object):
 
         print("done 3/6")
 
+        #Outer Ring__________________________________________________________
         minuit.set_errordef(1.0)
 
         f_tau1Ctr2 = minuit.mncontour('f','tau1', numpoints=numPoints, sigma=sigma)[2]
@@ -75,6 +89,7 @@ class Plot(object):
 
         print("done 6/6")
 
+        #Watch out for setting where to
         pl.figure(1)
         pl.title(r"f vs $\tau_{1}$ error contour")
         pl.xlabel("f")
@@ -83,7 +98,7 @@ class Plot(object):
         pl.plot(f_tau1x2, f_tau1y2, '-', label='1.0')
         pl.scatter([soln[0]],[soln[1]])
         pl.legend(loc='best')
-        pl.savefig("data/results/part5/3/f_tau1.png")
+        pl.savefig(saveDestination)
 
         pl.figure(2)
         pl.title(r"f vs $\tau_{2}$ error contour")
@@ -93,7 +108,7 @@ class Plot(object):
         pl.plot(f_tau2x2, f_tau2y2, '-', label='1.0')
         pl.scatter([soln[0]],[soln[2]])
         pl.legend(loc='best')
-        pl.savefig("data/results/part5/3/f_tau2.png")
+        pl.savefig(saveDestination)
 
         pl.figure(3)
         pl.title(r"$\tau_{2}$ vs $\tau_{1}$ error contour")
@@ -103,8 +118,11 @@ class Plot(object):
         pl.plot(tau2_tau1x2, tau2_tau1y2, '-', label='1.0')
         pl.scatter([soln[2]],[soln[1]])
         pl.legend(loc='best')
-        pl.savefig("data/results/part5/3/tau2_tau1.png")
+        pl.savefig(saveDestination)
 
+    #nice plots of value of NLL around minimum
+    #Data has to be pre processed to avoid making this method
+    #overly complex
     def errorInfo(self, xRange, yVals, errors, label):
         numXVals = 50
         lowerError, upperError = errors

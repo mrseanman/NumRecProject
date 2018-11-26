@@ -1,5 +1,14 @@
 '''
-Class to wrap up data from a file
+Class to wrap up data from a file.
+Specific to the data found in..
+data/datafile-Xdecay.txt
+which has format..
+
+tVal0   thetaVal0
+tVal1   thetaVal1
+.
+.
+
 '''
 
 class Data(object):

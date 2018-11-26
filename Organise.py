@@ -1,15 +1,5 @@
-'''
-Where instances of all the other classes are moved around
-to do useful things.
-~Roughly~ a method should correspond to a part in the Report outline
-'''
 import numpy as np
-from scipy import optimize
-import sys
-import copy
 from iminuit import Minuit
-import matplotlib.pylab as pl
-import pprint
 
 from Function import Function, FixParams, ComposeFunction
 from Optimise import Optimise
@@ -18,9 +8,14 @@ from RanGen import RanGen
 from Data import Data
 from Plot import Plot
 
-import sys
-import copy
+'''
+Where numbers and instances of all the other classes are moved around
+to do useful things.
+~Roughly~ a method should correspond to a part in the Report outline
 
+Look here is you want to change the starting values of parameters or
+to change other minimiser parameters.
+'''
 class Organise(object):
 
     def plotPDF(self):
@@ -69,28 +64,20 @@ class Organise(object):
         print("Generating P2 only random events...")
         t_thetaValsP2 = P2FixedGen.manyBox(numEvents)
 
-        #now plotting
+        #plotting
         #----------------------------------------------------------------------
         plotter = Plot()
         plotter.plotDistributions(t_thetaValsCoupled, "Coupled")
         plotter.plotDistributions(t_thetaValsP1, "P1")
         plotter.plotDistributions(t_thetaValsP2, "P2")
 
-
+    #finds F, tau1, tau2 values to fit the fThetaIndepPDF to the t data only
+    #does some plots
     def fitTVals(self):
         filename = "data/datafile-Xdecay.txt"
         data = Data(filename)
         func = Function()
         dataForNLL = [[item] for item in data.tVals]
-
-        '''
-        #too much data!! actual had 100K
-        #---------------
-        partialData = []
-        for i in range(100000):
-            partialData.append(dataForNLL[i])
-        #---------------
-        '''
 
         #initial guesses
         fInitial = 0.962
@@ -105,32 +92,14 @@ class Organise(object):
 
         self.fit(nllCalc, initialGuess)
 
-
-
-
-        pdffer = FixParams(func.fThetaIndepPDF, 4, self.fitSoln, [0,2,3])
-        bins = 200
-        pl.hist(data.tVals, bins = bins)
-        norm = 100000.*10./bins
-        tRange = np.linspace(0.,10., bins)
-        pdfVals = [norm * pdffer.eval([t]) for t in tRange]
-        pl.xlabel("t")
-        pl.ylabel("frequency")
-        pl.plot(tRange, pdfVals)
-        pl.show()
-
-
-
-
-
-
-
-
-        #plotter = Plot()
-        #plotter.errorCtr(self.minuit, self.fitSoln)
+        #plotting error contours (takes very long)
+        plotter = Plot()
+        print("Plots:\n------------------------")
+        plotter.errorCtr(self.minuit, self.fitSoln)
 
         self.simplisticErrors(nllCalc, self.fitSoln)
 
+        #full errors___________________________________________________
         opt = Optimise()
 
         fJump = 0.01
@@ -149,12 +118,14 @@ class Organise(object):
         bounds = (fBound, tau1Bound, tau2Bound)
 
         print("PosErrs:\n------------------------")
-        posErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, posJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        posErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5,
+            posJumps, accuracys, bounds, ("f", "tau1", "tau2"))
         fPosErr, tau1PosErr, tau2PosErr = posErr
 
         print("NegErrs:\n------------------------")
         negJumps = [-item for item in posJumps]
-        negErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, negJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        negErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5,
+            negJumps, accuracys, bounds, ("f", "tau1", "tau2"))
         fNegErr, tau1NegErr, tau2NegErr = [-val for val in negErr]
 
         fMeanErr = 0.5*(fNegErr + fPosErr)
@@ -164,26 +135,21 @@ class Organise(object):
         print("")
         print("Errors for NLL minimum (full): ")
         print("------------------------------------------")
-        print("F   :\t+" + str(fPosErr) + "\t-" + str(fNegErr) + "\t mean:" + str(fMeanErr))
-        print("Tau1:\t+" + str(tau1PosErr) + "\t-" + str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
-        print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
+        print("F   :\t+" + str(fPosErr) + "\t-" +
+            str(fNegErr) + "\t mean:" + str(fMeanErr))
+        print("Tau1:\t+" + str(tau1PosErr) + "\t-" +
+            str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
+        print("Tau2:\t+" + str(tau2PosErr) + "\t-" +
+            str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
         print("")
 
+    #finds F, tau1, tau2 values to fit the fPDF to the full (t, theta) data
     def fitFull(self):
         filename = "data/datafile-Xdecay.txt"
         data = Data(filename)
         func = Function()
         fullData = zip(data.tVals, data.thetaVals)
         fullData = [list(item) for item in fullData]
-
-        '''
-        #too much data!! actual had 100K
-        #---------------
-        partialData = []
-        for i in range(100000):
-            partialData.append(fullData[i])
-        #---------------
-        '''
 
         #initial guesses
         fInitial = 0.6
@@ -194,12 +160,15 @@ class Organise(object):
         nllCalc = NLL(func.fPDF, fullData, [1,2], 5)
 
         self.fit(nllCalc, initialGuess)
-        #self.simplisticErrors(nllCalc, self.fitSoln)
 
+        self.simplisticErrors(nllCalc, self.fitSoln)
+
+        #plots error contours (takes very long!)
         plotter = Plot()
         print("Plots:\n------------------------")
         plotter.errorCtr(self.minuit, self.fitSoln)
 
+        #Full errors__________________________________________________
         opt = Optimise()
 
         fJump = 0.01
@@ -218,12 +187,14 @@ class Organise(object):
         bounds = (fBound, tau1Bound, tau2Bound)
 
         print("PosErrs:\n------------------------")
-        posErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, posJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        posErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5,
+            posJumps, accuracys, bounds, ("f", "tau1", "tau2"))
         fPosErr, tau1PosErr, tau2PosErr = posErr
 
         print("NegErrs:\n------------------------")
         negJumps = [-item for item in posJumps]
-        negErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5, negJumps, accuracys, bounds, ("f", "tau1", "tau2"))
+        negErr = opt.error(nllCalc.evalNLL, self.fitSoln, 0.5,
+            negJumps, accuracys, bounds, ("f", "tau1", "tau2"))
         fNegErr, tau1NegErr, tau2NegErr = [-val for val in negErr]
 
         fMeanErr = 0.5*(fNegErr + fPosErr)
@@ -233,32 +204,38 @@ class Organise(object):
         print("")
         print("Errors for NLL minimum (full): ")
         print("------------------------------------------")
-        print("F   :\t+" + str(fPosErr) + "\t-" + str(fNegErr) + "\t mean:" + str(fMeanErr))
-        print("Tau1:\t+" + str(tau1PosErr) + "\t-" + str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
-        print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
+        print("F   :\t+" + str(fPosErr) + "\t-" + str(fNegErr) +
+            "\t mean:" + str(fMeanErr))
+        print("Tau1:\t+" + str(tau1PosErr) + "\t-" + str(tau1NegErr) +
+            "\t mean:" + str(tau1MeanErr))
+        print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) +
+            "\t mean:" + str(tau2MeanErr))
         print("")
 
+    #general method for organising a minuit fit of an NLL
+    #
+    #nllCalc should be an instance of NLL
     def fit(self, nllCalc, initialGuess):
-        #bounds
+
         fBound = (0.00001,0.999999)
         tau1Bound = (0.00001,20.)
         tau2Bound = (0.00001,20.)
         bounds = (fBound, tau1Bound, tau2Bound)
 
-        #tolerances
         fTolerance = 0.001
         tau1Tolerance = 0.001
         tau2Tolerance = 0.001
         tolerances = (fTolerance, tau1Tolerance, tau2Tolerance)
 
-        m = Minuit.from_array_func(nllCalc.evalNLL, initialGuess, error=tolerances, limit=bounds,
-                                    name = ("f", "tau1", "tau2"), errordef=0.5)
+        m = Minuit.from_array_func(nllCalc.evalNLL, initialGuess,
+            error=tolerances, limit=bounds, name = ("f", "tau1", "tau2"),
+            errordef=0.5, print_level=0)
 
         m.migrad()
-        print("NLL val:")
+
+        print("NLL val at minimum:")
         print(m.fval)
         print("")
-        #pprint.pprint(m.minos())
 
         soln = [value for (key,value) in m.values.items()]
         NLLMin = nllCalc.evalNLL(soln)
@@ -271,14 +248,15 @@ class Organise(object):
         print("Tau2:\t" + str(tau2Min))
         print("")
 
+        #for use later on in higher up methods
         self.minuit = m
         self.fitSoln = soln
 
+    #prints simple errors as described by simple error method in report
     def simplisticErrors(self, nllCalc, soln):
         fMin, tau1Min, tau2Min = soln
         NLLMin = nllCalc.evalNLL(soln)
-        #finding errors
-        #----------------------------------------------------------------------
+
         root = Optimise()
         fJump = 0.001
         tau1Jump = 0.01
@@ -318,13 +296,15 @@ class Organise(object):
 
         print("Errors for NLL minimum (simplistic): ")
         print("------------------------------------------")
-        print("F   :\t +" + str(fPosErr) + "\t-" + str(fNegErr) + "\t mean:" + str(fMeanErr))
-        print("Tau1:\t +" + str(tau1PosErr) + "\t-" + str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
-        print("Tau2:\t+" + str(tau2PosErr) + "\t-" + str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
+        print("F   :\t +" + str(fPosErr) + "\t-" +
+            str(fNegErr) + "\t mean:" + str(fMeanErr))
+        print("Tau1:\t +" + str(tau1PosErr) + "\t-" +
+            str(tau1NegErr) + "\t mean:" + str(tau1MeanErr))
+        print("Tau2:\t+" + str(tau2PosErr) + "\t-" +
+            str(tau2NegErr) + "\t mean:" + str(tau2MeanErr))
         print("")
 
-
-        #plotting error info
+        #plotting error info_________________________________________
         numXVals = 50
         fRange = np.linspace(fMin - 2*fNegErr, fMin + 2*fPosErr, numXVals)
         tau1Range = np.linspace(tau1Min - 2*tau1NegErr, tau1Min + 2*tau1PosErr, numXVals)
@@ -343,6 +323,7 @@ class Organise(object):
         tau1YvalsCen = [val-NLLMin for val in tau1Yvals]
         tau2YvalsCen = [val-NLLMin for val in tau2Yvals]
 
+        #plots values of function around minimum
         plotter = Plot()
         plotter.errorInfo(fRangeCen, fYvalsCen, [fNegErr, fPosErr], 'F')
         plotter.errorInfo(tau1RangeCen, tau1YvalsCen, [tau1NegErr, tau1PosErr], r"$\tau_{1}$")

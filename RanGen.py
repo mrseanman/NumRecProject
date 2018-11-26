@@ -1,7 +1,10 @@
 import numpy as np
-
 import sys
 
+'''
+For generating pseudo random numbers according to a certain PDF
+An instance of RanGen can only be used with one particular PDF
+'''
 class RanGen(object):
 
     #paramRanges to be given as...
@@ -12,14 +15,12 @@ class RanGen(object):
         self.paramRanges = paramRanges
         self.maxPDFVal = maxPDFVal
 
-    #returns value of pdf at parameters given
     def evaluate(self, params):
         return self.pdf(params)
 
     #returns random value in range according to PDF
-    #uses box method
+    #uses box method as described in report
     def nextBox(self):
-        #boolean for whether we have found a value to return
         foundVal = False
         while not(foundVal):
             evalParams = []
@@ -29,12 +30,10 @@ class RanGen(object):
 
             if self.pdf(evalParams) >= y:
                 foundVal = True
-
         return evalParams
 
     def manyBox(self, numEvents):
         vals = []
-
         for i in range(numEvents):
             #shows a little progress indicator
             sys.stdout.write("\r" + str(100*i/numEvents)[0:3] + "%")
