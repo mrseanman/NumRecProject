@@ -157,7 +157,7 @@ PDF (Probability Density Function)
 
 \begin_inset Formula 
 \[
-P_{1}(t,\theta;\tau_{1})=\frac{1}{3\pi\tau_{1}}(1+\cos^{2}\theta)e^{-\frac{t}{\tau_{1}}}\;\;\;\;\;\;\;\;\;\;P_{2}(t,\theta;\tau_{2})=\frac{1}{\pi\tau_{2}}\sin^{2}e^{-\frac{t}{\tau_{2}}}
+P_{1}(t,\theta;\tau_{1})=\frac{1}{3\pi\tau_{1}}(1+\cos^{2}\theta)\,e^{-\frac{t}{\tau_{1}}}\;\;\;\;\;\;\;\;\;\;P_{2}(t,\theta;\tau_{2})=\frac{1}{\pi\tau_{2}}\sin^{2}\theta\,e^{-\frac{t}{\tau_{2}}}
 \]
 
 \end_inset
@@ -199,7 +199,7 @@ NLL (Negative Log Likelyhood)
 \begin_layout Standard
 \begin_inset Formula 
 \[
-NLL(F,\tau_{1},\tau_{2})=-\sum_{i}\log P(t_{i},\theta_{i};F,\tau_{1},\tau_{2})
+\text{NLL}(F,\tau_{1},\tau_{2})=-\sum_{i}\log P(t_{i},\theta_{i};F,\tau_{1},\tau_{2})
 \]
 
 \end_inset
@@ -268,8 +268,8 @@ This Font
 \end_layout
 
 \begin_layout Itemize
-Any function minimisation was performed my Minuit, packaged for python as
- iminuit 
+Function minimisation was performed my Minuit, packaged for python as iminuit
+ 
 \begin_inset Flex URL
 status open
 
@@ -1958,6 +1958,15 @@ Fits with full errors
 \begin_layout Plain Layout
 \noindent
 \align center
+\begin_inset Formula $\:$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="10">
 <features tabularvalignment="middle">
@@ -2664,7 +2673,7 @@ status open
 \begin_inset Graphics
 	filename /home/sean/Documents/NumRec/Project/data/results/conclusion_1.png
 	lyxscale 30
-	scale 90
+	scale 80
 
 \end_inset
 
@@ -3416,11 +3425,139 @@ minuit.minos()
 Appendix
 \end_layout
 
+\begin_layout Subsection*
+Files
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Orgnaise.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Plot.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Optimise.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+NLL.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Function.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+RanGen.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Data.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(1) Organise.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "/home/sean/Documents/NumRec/Project/Organise.py"
 lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(2) Plot.py
+\end_layout
 
 \end_inset
 
@@ -3439,10 +3576,50 @@ lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(3) Optimise.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "/home/sean/Documents/NumRec/Project/Optimise.py"
 lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(4) NLL.py
+\end_layout
 
 \end_inset
 
@@ -3461,6 +3638,26 @@ lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(5) Function.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "/home/sean/Documents/NumRec/Project/Function.py"
@@ -3472,10 +3669,50 @@ lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(6) RanGen.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "/home/sean/Documents/NumRec/Project/RanGen.py"
 lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+(7) Data.py
+\end_layout
 
 \end_inset
 
