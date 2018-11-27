@@ -9,7 +9,7 @@ import copy
 The methods of this class all return evaluations of PDFs relating to the
 report.
 
-As a rule, the functions take all their parameters bundled in a list.
+As a rule, the functions take all their parameters bundled in an array.
 This makes for a more uniform interface between these functions and
 other methods that interact with them.
 
@@ -138,7 +138,7 @@ a composition of functions.
 
 A use case is when we want to find where a function f(params) = val.
 This is equivalent to finding the root of f(params) - val.
-So we compose (lambda x: x-val) with f(params) and then find the 
+So we compose (lambda x: x-val) with f(params) and then find the
 root of FixParams.eval()
 
 This is to make everything else that interacts with functions

@@ -30,15 +30,17 @@ class RanGen(object):
 
             if self.pdf(evalParams) >= y:
                 foundVal = True
-        return evalParams
+
+        return np.array(evalParams)
 
     def manyBox(self, numEvents):
         vals = []
         for i in range(numEvents):
             #shows a little progress indicator
             sys.stdout.write("\r" + str(100*i/numEvents)[0:3] + "%")
-            vals.append(self.nextBox())
+            next = self.nextBox()
+            vals.append(next)
             sys.stdout.flush()
         print("")
 
-        return vals
+        return np.array(vals)

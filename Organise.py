@@ -77,7 +77,7 @@ class Organise(object):
         filename = "data/datafile-Xdecay.txt"
         data = Data(filename)
         func = Function()
-        dataForNLL = [[item] for item in data.tVals]
+        dataForNLL = np.array([[item] for item in data.tVals])
 
         #initial guesses
         fInitial = 0.962
@@ -105,12 +105,14 @@ class Organise(object):
         fJump = 0.01
         tau1Jump = 0.01
         tau2Jump = 0.01
-        posJumps = [fJump, tau1Jump, tau2Jump]
+        #posJumps = [fJump, tau1Jump, tau2Jump]
+        posJumps = np.array([fJump, tau1Jump, tau2Jump])
 
         fAccuracy = 0.00001
         tau1Accuracy = 0.00001
         tau2Accuracy = 0.00001
-        accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
+        #accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
+        accuracys = np.array([fAccuracy, tau1Accuracy, tau2Accuracy])
 
         fBound = (0.00001,0.999999)
         tau1Bound = (0.00001,20.)
@@ -149,7 +151,7 @@ class Organise(object):
         data = Data(filename)
         func = Function()
         fullData = zip(data.tVals, data.thetaVals)
-        fullData = [list(item) for item in fullData]
+        fullData = np.array(fullData)
 
         #initial guesses
         fInitial = 0.6
@@ -161,6 +163,7 @@ class Organise(object):
 
         self.fit(nllCalc, initialGuess)
 
+
         self.simplisticErrors(nllCalc, self.fitSoln)
 
         #plots error contours (takes very long!)
@@ -171,14 +174,14 @@ class Organise(object):
         #Full errors__________________________________________________
         opt = Optimise()
 
-        fJump = 0.01
-        tau1Jump = 0.01
-        tau2Jump = 0.01
+        fJump = 0.1
+        tau1Jump = 0.1
+        tau2Jump = 0.1
         posJumps = [fJump, tau1Jump, tau2Jump]
 
-        fAccuracy = 0.00001
-        tau1Accuracy = 0.00001
-        tau2Accuracy = 0.00001
+        fAccuracy = 0.000001
+        tau1Accuracy = 0.000001
+        tau2Accuracy = 0.000001
         accuracys = [fAccuracy, tau1Accuracy, tau2Accuracy]
 
         fBound = (0.00001,0.999999)
@@ -237,11 +240,11 @@ class Organise(object):
         print(m.fval)
         print("")
 
-        soln = [value for (key,value) in m.values.items()]
+        soln = np.array([value for (key,value) in m.values.items()])
         NLLMin = nllCalc.evalNLL(soln)
         fMin, tau1Min, tau2Min = soln
 
-        print("Vals for NLL minimum: ")
+        print("Params for NLL minimum: ")
         print("------------------------------------------")
         print("F:\t" + str(fMin))
         print("Tau1:\t" + str(tau1Min))
@@ -271,9 +274,9 @@ class Organise(object):
         shiftVal = 0.5 + NLLMin
 
         #upperErrors
-        fRoot = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumps, accuracys, [1,2])[0]
-        tau1Root = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumps, accuracys, [0,2])[1]
-        tau2Root = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumps, accuracys, [0,1])[2]
+        fRoot = root.equalTo(nllCalc.evalNLL, shiftVal, soln, jumps, accuracys, [1,2])[0]
+        tau1Root = root.equalTo(nllCalc.evalNLL, shiftVal, soln, jumps, accuracys, [0,2])[1]
+        tau2Root = root.equalTo(nllCalc.evalNLL, shiftVal, soln, jumps, accuracys, [0,1])[2]
 
         fPosErr = fRoot - fMin
         tau1PosErr = tau1Root - tau1Min
@@ -282,9 +285,9 @@ class Organise(object):
         #lowerErrors
         jumpsNeg = [-item for item in jumps]
 
-        fRoot = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumpsNeg, accuracys, [1,2])[0]
-        tau1Root = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumpsNeg, accuracys, [0,2])[1]
-        tau2Root = root.equalTo(nllCalc.evalNLL, shiftVal, list(soln), jumpsNeg, accuracys, [0,1])[2]
+        fRoot = root.equalTo(nllCalc.evalNLL, shiftVal, soln, jumpsNeg, accuracys, [1,2])[0]
+        tau1Root = root.equalTo(nllCalc.evalNLL, shiftVal, soln, jumpsNeg, accuracys, [0,2])[1]
+        tau2Root = root.equalTo(nllCalc.evalNLL, shiftVal, soln, jumpsNeg, accuracys, [0,1])[2]
 
         fNegErr = fMin - fRoot
         tau1NegErr = tau1Min - tau1Root
@@ -310,18 +313,18 @@ class Organise(object):
         tau1Range = np.linspace(tau1Min - 2*tau1NegErr, tau1Min + 2*tau1PosErr, numXVals)
         tau2Range = np.linspace(tau2Min - 2*tau2NegErr, tau2Min + 2*tau2PosErr, numXVals)
 
-        fYvals = [nllCalc.evalNLL([val, tau1Min, tau2Min]) for val in fRange]
-        tau1Yvals = [nllCalc.evalNLL([fMin, val, tau2Min]) for val in tau1Range]
-        tau2Yvals = [nllCalc.evalNLL([fMin, tau1Min, val]) for val in tau2Range]
+        fYvals = np.array([nllCalc.evalNLL(np.array([val, tau1Min, tau2Min])) for val in fRange])
+        tau1Yvals = np.array([nllCalc.evalNLL(np.array([fMin, val, tau2Min])) for val in tau1Range])
+        tau2Yvals = np.array([nllCalc.evalNLL(np.array([fMin, tau1Min, val])) for val in tau2Range])
 
         #centering around minimum
-        fRangeCen = [val-fMin for val in fRange]
-        tau1RangeCen = [val-tau1Min for val in tau1Range]
-        tau2RangeCen = [val-tau2Min for val in tau2Range]
+        fRangeCen = fRange - fMin
+        tau1RangeCen = tau1Range - tau1Min
+        tau2RangeCen = tau2Range - tau2Min
 
-        fYvalsCen = [val-NLLMin for val in fYvals]
-        tau1YvalsCen = [val-NLLMin for val in tau1Yvals]
-        tau2YvalsCen = [val-NLLMin for val in tau2Yvals]
+        fYvalsCen = fYvals - NLLMin
+        tau1YvalsCen = tau1Yvals - NLLMin
+        tau2YvalsCen = tau2Yvals - NLLMin
 
         #plots values of function around minimum
         plotter = Plot()

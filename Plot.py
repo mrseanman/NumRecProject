@@ -8,8 +8,8 @@ class Plot(object):
 
     #plots simulated PDF data
     def plotDistributions(self, t_thetaVals, title):
-        tVals = [item[0] for item in t_thetaVals]
-        thetaVals = [item[1] for item in t_thetaVals]
+        tVals = t_thetaVals[:,0]
+        thetaVals = t_thetaVals[:,1]
 
         pl.figure(1)
         pl.scatter(thetaVals, tVals, s=1)
@@ -50,42 +50,42 @@ class Plot(object):
         #Inner Ring__________________________________________________________
         minuit.set_errordef(0.5)
 
-        f_tau1Ctr1 = minuit.mncontour('f','tau1', numpoints=numPoints, sigma=sigma)[2]
-        f_tau1x1 = [val[0] for val in f_tau1Ctr1 ]
-        f_tau1y1 = [val[1] for val in f_tau1Ctr1 ]
+        f_tau1Ctr1 = np.array(minuit.mncontour('f','tau1', numpoints=numPoints, sigma=sigma)[2])
+        f_tau1x1 = f_tau1Ctr1[:,0]#[val[0] for val in f_tau1Ctr1 ]
+        f_tau1y1 = f_tau1Ctr1[:,1]#[val[1] for val in f_tau1Ctr1 ]
 
         print("done 1/6")
 
-        f_tau2Ctr1 = minuit.mncontour('f','tau2', numpoints=numPoints, sigma=sigma)[2]
-        f_tau2x1 = [val[0] for val in f_tau2Ctr1 ]
-        f_tau2y1 = [val[1] for val in f_tau2Ctr1 ]
+        f_tau2Ctr1 = np.array(minuit.mncontour('f','tau2', numpoints=numPoints, sigma=sigma)[2])
+        f_tau2x1 = f_tau2Ctr1[:,0]#[val[0] for val in f_tau2Ctr1 ]
+        f_tau2y1 = f_tau2Ctr1[:,1]#[val[1] for val in f_tau2Ctr1 ]
 
         print("done 2/6")
 
-        tau2_tau1Ctr1 = minuit.mncontour('tau2','tau1', numpoints=numPoints, sigma=sigma)[2]
-        tau2_tau1x1 = [val[0] for val in tau2_tau1Ctr1 ]
-        tau2_tau1y1 = [val[1] for val in tau2_tau1Ctr1 ]
+        tau2_tau1Ctr1 = np.array(minuit.mncontour('tau2','tau1', numpoints=numPoints, sigma=sigma)[2])
+        tau2_tau1x1 = tau2_tau1Ctr1[:,0]#[val[0] for val in tau2_tau1Ctr1 ]
+        tau2_tau1y1 = tau2_tau1Ctr1[:,1]#[val[1] for val in tau2_tau1Ctr1 ]
 
         print("done 3/6")
 
         #Outer Ring__________________________________________________________
         minuit.set_errordef(1.0)
 
-        f_tau1Ctr2 = minuit.mncontour('f','tau1', numpoints=numPoints, sigma=sigma)[2]
-        f_tau1x2 = [val[0] for val in f_tau1Ctr2 ]
-        f_tau1y2 = [val[1] for val in f_tau1Ctr2 ]
+        f_tau1Ctr2 = np.array(minuit.mncontour('f','tau1', numpoints=numPoints, sigma=sigma)[2])
+        f_tau1x2 = f_tau1Ctr2[:,0]#[val[0] for val in f_tau1Ctr2 ]
+        f_tau1y2 = f_tau1Ctr2[:,1]#[val[1] for val in f_tau1Ctr2 ]
 
         print("done 4/6")
 
-        f_tau2Ctr2 = minuit.mncontour('f','tau2', numpoints=numPoints, sigma=sigma)[2]
-        f_tau2x2 = [val[0] for val in f_tau2Ctr2 ]
-        f_tau2y2 = [val[1] for val in f_tau2Ctr2 ]
+        f_tau2Ctr2 = np.array(minuit.mncontour('f','tau2', numpoints=numPoints, sigma=sigma)[2])
+        f_tau2x2 = f_tau2Ctr2[:,0]#[val[0] for val in f_tau2Ctr2 ]
+        f_tau2y2 = f_tau2Ctr2[:,1]#[val[1] for val in f_tau2Ctr2 ]
 
         print("done 5/6")
 
-        tau2_tau1Ctr2 = minuit.mncontour('tau2','tau1', numpoints=numPoints, sigma=sigma)[2]
-        tau2_tau1x2 = [val[0] for val in tau2_tau1Ctr2 ]
-        tau2_tau1y2 = [val[1] for val in tau2_tau1Ctr2 ]
+        tau2_tau1Ctr2 = np.array(minuit.mncontour('tau2','tau1', numpoints=numPoints, sigma=sigma)[2])
+        tau2_tau1x2 = tau2_tau1Ctr2[:,0]#[val[0] for val in tau2_tau1Ctr2 ]
+        tau2_tau1y2 = tau2_tau1Ctr2[:,1]#[val[1] for val in tau2_tau1Ctr2 ]
 
         print("done 6/6")
 

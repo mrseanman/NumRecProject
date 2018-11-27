@@ -10,9 +10,9 @@ Class for finding minima and roots using simple methods.
 Philosphy was to make the methods as general as was reasonable.
 So min and root can work with function with any number of numerical
 parameters. So long as the function takes the parameters
-all bundled in a list.
+all bundled in an array.
 
-From a deep fear of mutable lists, there is a lot of copy.deepcopy
+From a deep fear of mutable arrays, there is a lot of copy.deepcopy
 This might be lazy but it allows for more certainty and understanding
 of the methods behaviour.
 
@@ -33,10 +33,10 @@ class Optimise(object):
     #
     #returns values of params at function (local) minimum
     #
-    #func is function to be minimised only argument must be list params
-    #fParamsGuess is list of param starting positions
-    #paramsJump is list of initial deltas for parameters
-    #paramsAccuracy is list of accuracys on each parameter for minimum
+    #func is function to be minimised only argument must be array params
+    #fParamsGuess is array of param starting positions
+    #paramsJump is array of initial deltas for parameters
+    #paramsAccuracy is array of accuracys on each parameter for minimum
     #paramsToFix is list of indexes of params to... keep fixed
     #
     #Minimises a function in a very simple and dumb way.
@@ -95,7 +95,7 @@ class Optimise(object):
     #root_finding____________________________________________________________
     #returns values of parameters at root
     #i.e. finds params for when func(params)=0
-    #paramsToFix is list of parameter indexes that should be fixed
+    #paramsToFix is array of parameter indexes that should be fixed
     #
     #arguments are same as for min
     #
@@ -165,11 +165,11 @@ class Optimise(object):
     #full error method in the report.
     #
     #func is function in question
-    #minParams is list of values of params at func minimum.
+    #minParams is array of values of params at func minimum.
     #errorDef for NLL is 0.5
-    #jumps is list of starting deltas for scan
-    #accuracys is list of accuracys for errors on params
-    #limits is tuple of duple (lowerLim, upperLim) for minimiser scan.
+    #jumps is array of starting deltas for scan
+    #accuracys is array of accuracys for errors on params
+    #limits is tuple of duples (lowerLim, upperLim) for minimiser scan.
     #   i.e. ((param1Lower, param1Upper), (param2Lower, param2Upper)...)
     #names is tuple of str to call each parameter
     #
@@ -188,7 +188,7 @@ class Optimise(object):
                 minParams, jumps[index], accuracys[index], limits, names)
 
             errors.append(paramError)
-            print("Done: " + str(index) + "/" + str())
+            print("Done: " + str(index) + "/" + str(len(minParams)))
 
         return errors
 
@@ -196,7 +196,7 @@ class Optimise(object):
     #
     #valAtError is same as errorDef for error
     #funcInit is function in question
-    #fParams is list of values of parameters at minimum of funcInit
+    #fParams is array of values of parameters at minimum of funcInit
     #rest of parameters are the same as for error
     #
     #very similar method to rootSingleParam but after jumping the free param
@@ -228,6 +228,7 @@ class Optimise(object):
         params[freeParamIndex] += freeParamJump
         val1 = func(params)
         direction = -(np.sign(val1 - val0) * np.sign(val0))
+        val1 = val0
 
         for i in range(numIter):
             val0 = val1
@@ -259,4 +260,5 @@ class Optimise(object):
             freeParamJump /= 2.
             direction *= -1
 
+        print(params)
         return params[freeParamIndex] - fParams[freeParamIndex]
