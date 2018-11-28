@@ -268,8 +268,8 @@ This Font
 \end_layout
 
 \begin_layout Itemize
-Any function minimisation was performed my Minuit, packaged for python as
- iminuit 
+Function minimisation was performed my Minuit, packaged for python as iminuit
+ 
 \begin_inset Flex URL
 status open
 
@@ -3727,10 +3727,6 @@ lstparams "language=Python,frame=tb,breaklines=true,fontadjust=true"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 
 \end_layout
 
