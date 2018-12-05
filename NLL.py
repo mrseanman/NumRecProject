@@ -2,6 +2,7 @@ from Data import Data
 from Function import Function, FixParams
 import math
 import copy
+import numpy as np
 
 '''
 An instance of this class is used to return the value of
@@ -30,12 +31,12 @@ class NLL(Function):
 
     #calls all the elements in self.dataFixedPDFs with the
     #remaining free params in params.
+    #FIXME
     def evalNLL(self, params):
-        runningNLL = 0.
+        vals = np.empty(self.numData)
         for i in range(self.numData):
-            L = -math.log(self.dataFixedPDFs[i].eval(params))
-            runningNLL +=   L
-        return runningNLL
+            vals[i] = (-np.log(self.dataFixedPDFs[i].eval(params)))
+        return np.sum(vals)
 
     #takes data attatched to PDFs and uses it to form a big list of
     #fixed parameter PDFs (one for every data point)
